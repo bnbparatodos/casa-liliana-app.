@@ -1,0 +1,30 @@
+CASA LILIANA · APLICACIÓN INSTALABLE PARA ANDROID (PWA)
+
+ESTOS ARCHIVOS SÍ PUEDEN PUBLICARSE:
+- index.html
+- manifest.webmanifest
+- sw.js
+- icon-192.png
+- icon-512.png
+
+IMPORTANTE
+Este paquete no contiene los 221 registros de gastos del PDF ni el saldo histórico ni las notas de avances. Tus datos privados están en el archivo JSON que se entrega POR SEPARADO. NO lo subas a GitHub.
+
+PUBLICACIÓN DESDE ANDROID (SIN NETLIFY NI COMPUTADORA)
+1. Extrae este ZIP en tu teléfono.
+2. En github.com/new crea un repositorio PÚBLICO (p. ej. casa-liliana-app).
+3. Abre el repositorio, elige Add file > Upload files y carga LOS CINCO archivos de arriba (sueltos, no el ZIP). Confirma/commit.
+4. Settings > Pages > Build and deployment: Source = Deploy from a branch; Branch = main y carpeta /(root). Guarda.
+5. Tras publicarse, visita https://TU-USUARIO.github.io/casa-liliana-app/ desde Chrome en Android.
+6. Menú ⋮ > Instalar aplicación (o Añadir a pantalla de inicio).
+7. En la app instalada, Ajustes > Restaurar respaldo JSON; elige tu respaldo privado de la versión anterior o el JSON de historial inicial.
+
+SEGURIDAD Y DATOS
+- El sitio y el código de GitHub Pages son públicos. Los datos que importas solo se almacenan en ese navegador/dispositivo (localStorage). No hay sincronización ni cuenta en la nube.
+- NO subas el archivo JSON privado, recibos privados o fotos de gastos a GitHub.
+- Antes de cambiar de versión o navegador, exporta el respaldo JSON desde Ajustes. Hazlo semanalmente.
+- Si usaste la app HTML anterior, EXPORTA DESDE LA ANTERIOR primero, ya que abrir la PWA en GitHub Pages NO puede importar automáticamente los datos del archivo HTML.
+- No borres datos del navegador ni desinstales la app sin tener un respaldo actualizado.
+
+ACTUALIZACIONES
+Para actualizar, reemplaza los archivos publicados por la nueva versión; los datos locales se conservan siempre que la URL y el almacenamiento del navegador sigan siendo los mismos. Para cambios de cache más adelante se actualizará la versión del service worker.
