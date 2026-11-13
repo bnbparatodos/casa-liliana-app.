@@ -1,613 +1,90 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#fbfaf5" />
+  <meta name="description" content="Un calendario semanal sencillo para tareas, pendientes y compras." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" href="icon-192.png?v=13" />
+  <link rel="apple-touch-icon" href="icon-192.png?v=13" />
+  <title>Mi Semana · Agenda sencilla</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="identity">
+        <div class="brand-mark" aria-hidden="true">✓</div>
+        <div><div class="brand">Mi Semana</div><div class="subtitle">bnbparatodos · Todo en orden.</div></div>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="settingsButton" aria-label="Copia de seguridad y ajustes" title="Respaldo y ajustes">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06-2.83 2.83-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21h-4v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06-2.83-2.83.06-.06A1.65 1.65 0 0 0 4.8 15a1.65 1.65 0 0 0-1.51-1H3v-4h.29A1.65 1.65 0 0 0 4.8 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06 2.83-2.83.06.06A1.65 1.65 0 0 0 9.12 4a1.65 1.65 0 0 0 1-1.51V3h4v.29a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06 2.83 2.83-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21v4h-.09A1.65 1.65 0 0 0 19.4 15Z"/></svg>
+        </button>
+        <button class="primary top-add" id="quickAddTop"><span class="plus">+</span> Agregar</button>
+      </div>
+    </header>
 
-<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/><meta content="#103e38" name="theme-color"/><meta name="description" content="Control de obra, jornadas y recibos semanales"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-status-bar-style" content="default"/><link rel="manifest" href="./manifest.webmanifest"/><link rel="icon" type="image/png" href="./icon-192.png"/><link rel="apple-touch-icon" href="./icon-192.png"/><title>Casa Liliana · Control de obra v10</title><style>
-:root{--dark:#103e38;--deep:#082923;--green:#22735f;--green2:#d7ece2;--mint:#e6f5ed;--bg:#f5f5f1;--ink:#172d29;--muted:#687b75;--line:#e0e7e0;--gold:#b88839;--white:#fff;--red:#b64e3d;--shade:0 9px 30px #103e3813}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);font:15px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--ink);-webkit-tap-highlight-color:transparent}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{opacity:.4;cursor:not-allowed}input,select,textarea{width:100%;border:1px solid #d8e1d8;border-radius:12px;background:white;padding:13px 12px;color:var(--ink);outline:none;min-height:45px}input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px #22735f1b}input[type=checkbox]{width:20px;height:20px;min-height:20px;accent-color:var(--green);margin:0}input[type=number]{font-variant-numeric:tabular-nums}label{display:block;color:#50655e;font-size:12px;font-weight:700;margin-bottom:6px}small{font-size:12px}.muted{color:var(--muted)}.app{max-width:1150px;margin:auto}.mast{background:var(--dark);color:white;padding:25px max(17px,calc((100vw - 1118px)/2));position:relative;overflow:hidden}.mast:after{content:'';width:230px;height:230px;border:1px solid #ffffff20;border-radius:50%;position:absolute;right:-90px;top:-160px;box-shadow:0 0 0 47px #ffffff08,0 0 0 95px #ffffff05;pointer-events:none}.brand{display:flex;align-items:center;gap:13px;position:relative;z-index:1}.logo{height:41px;width:41px;border:1px solid #ffffff85;border-radius:12px;display:grid;place-items:center;color:#d1e9db}.logo svg{height:27px;width:27px}.brand-sub{font-size:11px;letter-spacing:.18em;font-weight:800;color:#b2d8cc}.brand-name{font-size:21px;letter-spacing:-.03em;font-weight:800}.header-right{margin-left:auto;font-size:12px;color:#c8e3d9}.hero{margin-top:28px;display:flex;justify-content:space-between;align-items:end;gap:16px;position:relative;z-index:1}.hero .eyebrow{text-transform:uppercase;font-size:10px;font-weight:800;letter-spacing:.19em;color:#accdbf}.hero h1{font-size:clamp(23px,4vw,35px);margin:6px 0 2px;line-height:1.07;letter-spacing:-.04em;font-weight:800}.hero p{color:#c4dbd4;margin:7px 0 0;font-size:12px}.week-jump{display:flex;align-items:center;gap:4px;background:#ffffff15;padding:5px;border-radius:30px;white-space:nowrap}.week-jump button{background:#ffffff16;color:white;border:0;border-radius:50%;width:35px;height:35px;font-size:20px}.week-jump span{font-weight:800;min-width:61px;text-align:center;font-size:13px}.main{padding:23px 17px 110px}.tabs{display:flex;gap:5px;background:white;border-radius:16px;padding:5px;box-shadow:0 2px 12px #12372f09;margin-bottom:19px;overflow:auto}.tabs button{border:0;border-radius:11px;background:transparent;color:#667b73;padding:11px 17px;font-size:13px;font-weight:750;white-space:nowrap;flex:1}.tabs button.active{color:white;background:var(--dark);box-shadow:0 3px 8px #103e3826}.view{display:none}.view.active{display:block}.layout{display:grid;grid-template-columns:1.16fr .84fr;gap:16px}.card{background:white;border:1px solid var(--line);border-radius:20px;padding:20px;margin-bottom:15px;box-shadow:var(--shade)}.card h2{font-size:17px;letter-spacing:-.03em;line-height:1.3;margin:0 0 13px}.card h3{font-size:14px;margin:0 0 10px}.sectiontop{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px}.sectiontop h2{margin:0}.eyebrow{font-size:10px;color:var(--green);font-weight:850;letter-spacing:.13em;text-transform:uppercase}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}.stat{border-radius:17px;padding:17px 16px;background:white;border:1px solid var(--line);min-width:0}.stat .key{font-size:11px;color:var(--muted);font-weight:700;line-height:1.4}.stat .val{font-size:clamp(18px,2.5vw,27px);letter-spacing:-.04em;font-weight:850;color:var(--dark);margin-top:7px;white-space:nowrap}.stat.dark{background:var(--deep);border:0}.stat.dark .val{color:white}.stat.dark .key{color:#bbd5cb}.stat .aux{font-size:10px;color:#869a90;margin-top:5px}.micro-bar{height:8px;border-radius:50px;background:#ecf0ec;display:flex;overflow:hidden;gap:2px;margin:19px 0 16px}.micro-bar div{transition:width .35s}.ledger{display:grid;grid-template-columns:1fr auto;gap:12px;border-bottom:1px solid #e8eee7;padding:11px 0;font-size:13px;align-items:center}.ledger:last-child{border:0}.ledger strong{font-variant-numeric:tabular-nums}.tag{border-radius:20px;padding:5px 9px;font-size:10px;font-weight:800;background:var(--mint);color:#29644f;white-space:nowrap}.tag.warn{background:#f9ebd7;color:#87621f}.tag.gray{background:#f1f2ef;color:#65766f}.num{font-variant-numeric:tabular-nums}.big-amount{font-size:29px;letter-spacing:-.045em;font-weight:850;color:var(--dark);margin:4px 0}.quick-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:16px}.button{border:0;background:var(--dark);color:white;border-radius:13px;padding:12px 15px;font-weight:750;min-height:43px;display:inline-flex;align-items:center;justify-content:center;gap:7px;font-size:13px;text-align:center}.button:hover{filter:brightness(1.09)}.button.light{background:var(--mint);color:var(--dark)}.button.outline{background:white;color:var(--dark);border:1px solid #bed4ca}.button.red{background:#faede8;color:var(--red)}.button.small{padding:8px 11px;min-height:34px;font-size:11px}.button.wide{width:100%}.button:active{transform:scale(.992)}.hint{padding:12px 13px;background:#f0f5ef;border-radius:13px;color:#536a5e;font-size:12px;line-height:1.55;margin:12px 0}.hint.alert{background:#fcf1e7;color:#8b673b}.fieldgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{min-width:0}.field.full{grid-column:1/-1}.segment{display:flex;background:#eff3ef;border-radius:12px;padding:4px;gap:3px;margin-bottom:16px}.segment button{flex:1;border:0;background:transparent;border-radius:9px;font-weight:750;font-size:12px;padding:10px 8px;color:#738178}.segment button.active{background:white;color:var(--dark);box-shadow:0 1px 4px #12372f1c}.inline-check{display:flex;align-items:center;gap:9px;font-weight:650;font-size:13px;color:var(--ink)}.worker-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.worker-head{display:flex;justify-content:space-between;align-items:center;margin:0 0 11px}.worker-head strong{font-size:16px}.worker-head span{font-size:13px;color:var(--green);font-weight:800}.day-row{display:grid;grid-template-columns:minmax(74px,1fr) auto 91px;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid #ecf0eb}.day-row:last-child{border:0}.day-row .dayname{font-size:12px;font-weight:800}.day-row small{display:block;font-weight:400;color:#8a988d}.day-row input[type=number]{min-height:37px;padding:7px 8px;border-radius:9px;text-align:center}.day-row input[disabled]{background:#f4f5f2}.daily-head{display:flex;justify-content:space-between;gap:10px;color:#72877c;font-size:10px;font-weight:850;letter-spacing:.04em;text-transform:uppercase}.summary-row{display:flex;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid #e8eee7;font-size:13px}.summary-row b{font-variant-numeric:tabular-nums}.summary-row.total{font-size:16px;border-top:2px solid var(--dark);border-bottom:0;font-weight:850;padding-top:14px}.line{height:1px;background:var(--line);margin:17px 0}.splitrow{display:grid;grid-template-columns:1fr 1fr;gap:11px}.historical-status{font-size:12px;color:var(--muted)}.expense-row{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid #e7ece7}.expense-row:last-child{border:0}.expense-row .d{font-size:13px;font-weight:750;overflow-wrap:anywhere}.expense-row .sub{font-size:11px;color:#87978b;margin-top:2px}.expense-row .right{text-align:right;flex-shrink:0}.expense-row .amt{font-size:13px;font-weight:850}.expense-row button{background:none;color:var(--green);font-size:11px;border:0;padding:3px 0 0 7px}.pillbar{display:flex;gap:6px;overflow:auto;margin-bottom:11px}.pillbar button{white-space:nowrap;border:1px solid #dce5dd;border-radius:40px;padding:8px 10px;background:white;font-size:11px;font-weight:750;color:#607a6c}.pillbar button.active{background:var(--deep);color:white;border-color:var(--deep)}.searchbox{margin-bottom:11px}.receipt{border:1px solid #e8e6df;border-radius:15px;background:#fff;box-shadow:0 3px 17px #103e3810;padding:23px;max-width:720px;margin:auto}.receipt-head{display:flex;justify-content:space-between;gap:16px;align-items:start;border-bottom:2px solid var(--dark);padding-bottom:15px;margin-bottom:13px}.receipt .mini-title{font-size:11px;font-weight:850;letter-spacing:.15em;color:var(--green)}.receipt h2{font-size:24px;letter-spacing:-.045em;margin:5px 0 3px}.receipt .code{font-size:11px;text-align:right;color:#6a8176}.receipt .code strong{font-size:20px;color:var(--dark);display:block}.r-row{display:grid;grid-template-columns:52px 1fr 95px;gap:9px;padding:8px 0;border-bottom:1px solid #eef0eb;align-items:start;font-size:11px}.r-row .sum{text-align:right;font-weight:800;white-space:nowrap}.r-row em{display:block;font-size:10px;color:#7b8c81;font-style:normal}.r-sub{font-size:10px;text-transform:uppercase;letter-spacing:.09em;font-weight:850;color:var(--green);padding:18px 0 6px}.r-total{display:flex;align-items:end;justify-content:space-between;background:var(--dark);color:white;padding:16px 17px;border-radius:13px;margin:16px 0;gap:10px}.r-total strong{font-size:26px;letter-spacing:-.04em}.notes{font-size:12px;white-space:pre-wrap;color:#53685e}.footerrec{padding-top:13px;border-top:1px solid #ebeee9;font-size:10px;color:#8ca097}.empty{text-align:center;color:#89998e;padding:28px 8px;font-size:13px}.empty .icon{font-size:26px;margin-bottom:9px}.foot-nav{display:none}.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(120px);background:#103e38;color:white;padding:12px 17px;border-radius:14px;z-index:500;transition:transform .25s;box-shadow:0 10px 30px #112b25aa;font-size:13px;text-align:center;max-width:90vw}.toast.show{transform:translateX(-50%) translateY(0)}.modal{position:fixed;inset:0;background:#051e1aaa;z-index:300;display:none;align-items:center;justify-content:center;padding:15px}.modal.show{display:flex}.modal-panel{background:white;padding:21px;border-radius:21px;max-width:470px;width:100%;max-height:93vh;overflow:auto}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.modal-head h2{margin:0}.modal-close{border:0;background:#f0f5f0;border-radius:50%;font-size:22px;width:35px;height:35px}.btns{display:flex;gap:9px;margin-top:13px}.btns>*{flex:1}.warn-num{color:var(--red)}.bar-label{display:flex;justify-content:space-between;font-size:12px;font-weight:650;margin-bottom:6px}.bar{height:9px;background:#f0f2ef;border-radius:100px;overflow:hidden;margin-bottom:13px}.bar span{display:block;height:100%;border-radius:100px;background:#2e8567}.metricgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.metric{padding:15px;border-radius:13px;background:#f5f8f4}.metric small{display:block;color:#73877a}.metric strong{font-size:17px}.center{text-align:center}.mt{margin-top:15px}.hide{display:none!important}@media(min-width:900px){.mast{border-radius:0 0 28px 28px}.main{padding:24px 0 65px}}@media(max-width:770px){.layout{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.stat .val{font-size:23px}.worker-grid{grid-template-columns:1fr}.tabs{display:none}.foot-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:120;background:white;border-top:1px solid #dae7de;padding:7px 6px calc(7px + env(safe-area-inset-bottom));justify-content:space-around;box-shadow:0 -5px 17px #143a3012}.foot-nav button{border:0;background:transparent;min-width:0;flex:1;display:flex;align-items:center;flex-direction:column;gap:3px;color:#7b8e82;font-size:10px;font-weight:750;padding:3px 0}.foot-nav button svg{height:20px;width:20px}.foot-nav button.active{color:var(--green)}.mast{padding:20px 17px 24px}.main{padding:18px 13px 115px}.hero{margin-top:24px}.header-right{display:none}.card{padding:17px;border-radius:17px}.receipt{padding:15px}.hero h1{font-size:26px}.week-jump button{width:32px;height:32px}.week-jump span{min-width:53px;font-size:11px}.btns{flex-wrap:wrap}}@media(max-width:370px){.stat .val{font-size:20px}.fieldgrid{grid-template-columns:1fr}.day-row{grid-template-columns:1fr 27px 82px}.r-row{grid-template-columns:43px 1fr 75px}.r-total strong{font-size:21px}.receipt h2{font-size:21px}}
+    <nav class="tabs" aria-label="Secciones">
+      <button class="tab is-active" data-view="calendar"><span class="tab-icon">▦</span> Calendario</button>
+      <button class="tab" data-view="reservations"><span class="tab-icon">⌂</span> Reservas</button>
+      <button class="tab" data-view="pending"><span class="tab-icon">☑</span> Pendientes <span id="pendingCount" class="tab-count" hidden></span></button>
+      <button class="tab" data-view="shopping"><span class="tab-icon">◧</span> Compras</button>
+      <button class="tab" data-view="templates"><span class="tab-icon">☆</span> Guardadas</button>
+    </nav>
 
-.admin-details{margin:12px 0 2px;padding:10px 12px;border:1px solid #e0e7e0;border-radius:10px;color:#506d64;font-size:13px}.admin-details summary{cursor:pointer;font-weight:650}.admin-details .segment{margin-top:12px}.admin-details .segment button{font-size:13px}
-.receipt-shell{display:grid;grid-template-columns:minmax(210px,275px) minmax(0,1fr);gap:15px;align-items:start}.archive-week{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 12px;border:1px solid var(--line);border-radius:14px;background:#f7faf7;margin-bottom:8px;width:100%;text-align:left;color:var(--dark)}.archive-week.active{border-color:var(--green);background:var(--mint)}.archive-week .week-meta{font-size:11px;color:#6e8176}.receipt-toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.receipt-toolbar>button{white-space:nowrap}.receipt-toolbar select{min-width:125px;flex:1}.archive-pill{border-radius:10px;background:#e6f5ed;color:#225b49;padding:7px 10px;font-size:11px;font-weight:800}.archive-pill.draft{background:#faf0da;color:#906d2e}.adjustment-entry{display:grid;grid-template-columns:minmax(110px,1fr) 100px 116px auto;gap:8px;align-items:end}.receipt-edit-locked{background:#edf4ee;border:1px solid #cbded1;padding:13px 15px;border-radius:12px;font-size:12px;color:#37594c}.archive-empty{color:#758a80;font-size:12px;line-height:1.65}.receipt-current{margin-bottom:12px}.archive-list{max-height:610px;overflow-y:auto}.receipt-saved-meta{margin:12px auto;max-width:720px;font-size:12px;color:#667d70}.version-bar{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.version-bar select{width:auto;min-width:135px}.receipt-archive-title{margin-top:0}.small-note{color:#708277;font-size:11px}.status-label{display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:11px}.status-dot{height:7px;width:7px;background:#32876f;border-radius:50%}
-@media(max-width:850px){.receipt-shell{grid-template-columns:1fr}.archive-list{max-height:220px}.receipt-archive-title{margin-bottom:7px}.receipt-shell>.card{margin-bottom:0}.adjustment-entry{grid-template-columns:minmax(0,1fr) 100px}.adjustment-entry .adjust-amount{grid-column:1}.adjustment-entry button{grid-column:2}.receipt-toolbar select{min-width:105px}.receipt{padding:15px}.r-row{grid-template-columns:44px 1fr 82px;gap:6px}.r-total strong{font-size:22px}}
-@media(max-width:510px){.receipt-toolbar{gap:5px}.receipt-toolbar button{padding:9px 10px}.archive-list{max-height:180px}.archive-week{padding:8px 10px}}
+    <main>
+      <section id="calendarView" class="view">
+        <div class="week-toolbar">
+          <div><div class="eyebrow">TU CALENDARIO</div><h1 id="weekTitle">Esta semana</h1></div>
+          <div class="week-actions">
+            <button class="today-btn" id="todayBtn">Hoy</button>
+            <button class="square-btn" id="prevWeek" aria-label="Semana anterior">‹</button>
+            <button class="square-btn" id="nextWeek" aria-label="Semana siguiente">›</button>
+          </div>
+        </div>
+        <div class="calendar-guide">Toca un día y una hora para elegir una tarea guardada o crear una nueva.</div>
+        <div class="calendar-shell">
+          <div id="calendarScroller" class="calendar-scroller" tabindex="0" aria-label="Calendario semanal con horarios"></div>
+        </div>
+        <div class="landscape-controls" aria-label="Navegación del calendario horizontal">
+          <button id="landPrevWeek" type="button" aria-label="Semana anterior">‹</button><span id="landWeekTitle"></span><button id="landNextWeek" type="button" aria-label="Semana siguiente">›</button><button id="landToday" type="button">Hoy</button><button id="landSections" type="button" aria-label="Otras secciones">☰</button>
+        </div>
+        <div class="calendar-footnote"><span class="legend-dot"></span> Las tareas repetidas aparecerán automáticamente en sus próximos días.</div>
+      </section>
 
-.stepper{display:flex;align-items:center;gap:3px;min-width:0}.stepper input{min-width:0;width:58px!important;flex:1!important;padding:7px 0!important;text-align:center;font-size:13px}.stepper button{height:38px;min-width:35px;background:#e5f3eb;border:1px solid #cbded1;border-radius:9px;font-weight:850;color:var(--dark);font-size:20px;touch-action:manipulation}.stepper button:disabled{opacity:.35}.day-row{grid-template-columns:minmax(62px,1fr) 25px minmax(150px,190px)}.day-row input[type=checkbox]{justify-self:center}.daily-head span:last-child{width:160px;text-align:center}
-.prior-box{background:#f2f7f2;border-radius:14px;padding:13px;border:1px solid #dce8db;margin-bottom:10px}.prior-tools{display:grid;grid-template-columns:1fr auto;gap:9px;align-items:end}.prior-tools button{min-width:112px}.note-week{white-space:pre-wrap;color:#415a4f;font-size:12px;margin-top:5px}.work-week{width:100%;padding:13px 0;border-bottom:1px solid #e7ede6;display:flex;justify-content:space-between;gap:13px;text-align:left;background:none;border-left:0;border-right:0;border-top:0;color:var(--ink);cursor:pointer}.work-week.active{background:#ecf6ee;border-radius:10px;padding:13px 8px}.work-week .work-desc{font-size:12px;color:#667e70;white-space:pre-wrap;margin-top:5px}.work-week .work-price{font-size:13px;font-weight:850;white-space:nowrap}.category-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #edf1eb}.category-row:last-child{border:0}.muted-mini{font-size:11px;color:#7a8a7d}.category-create{display:flex;gap:7px;margin-top:10px}.category-create input{min-width:0}.pending-transfer{border-radius:13px;padding:14px;border:1px solid #ead6a5;background:#fff9ec;color:#77561c;margin-top:12px;font-size:12px}.pending-transfer b{font-weight:850}.account-inline{font-size:12px;color:#586e62;margin-top:5px}.danger-brief{font-size:11px;color:#8b673b}
-@media(max-width:650px){.worker-grid{grid-template-columns:1fr}.day-row{grid-template-columns:minmax(65px,1fr) 24px minmax(164px,1.3fr)}.main{padding-bottom:100px}.foot-nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}.foot-nav button{font-size:10px}.foot-nav button svg{width:19px;height:19px}.prior-tools{grid-template-columns:1fr auto}.prior-tools button{min-width:0;padding:10px 9px}.stepper button{min-width:38px}}
-@media(max-width:360px){.day-row{grid-template-columns:50px 22px minmax(0,1fr);gap:5px}.stepper{gap:2px}.stepper button{min-width:29px;height:34px;font-size:18px}.stepper input{min-height:34px;font-size:12px}.receipt-toolbar select{min-width:95px}.fieldgrid{gap:8px}}
+      <section id="reservationsView" class="view" hidden>
+        <div class="section-heading"><div><div class="eyebrow">ALOJAMIENTOS</div><h1>Reservas</h1><p>Crea la reserva y se agendan check-in, check-out y limpieza.</p></div><button id="newReservation" class="primary">+ Reserva</button></div>
+        <div id="reservationsList" class="item-list reservations-list"></div>
+      </section>
+      <section id="pendingView" class="view" hidden>
+        <div class="section-heading"><div><div class="eyebrow">SIN FECHA</div><h1>Pendientes</h1><p>Anota lo que tienes que hacer, aunque todavía no sepas cuándo.</p></div></div>
+        <form id="pendingForm" class="quick-inline" novalidate><input id="pendingInput" placeholder="Ej. Comprar pintura para la obra" maxlength="150" required aria-label="Nuevo pendiente"/><button class="primary" type="submit">Agregar</button></form>
+        <div id="pendingList" class="item-list"></div>
+      </section>
 
-/* v5: movements and construction cost analysis */
-.stage-layout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
-.mini-metric{border:1px solid var(--line);border-radius:12px;padding:12px;background:#f9fbf8}
-.mini-metric .metric-label{color:var(--muted);font-size:12px}.mini-metric strong{display:block;font-size:19px;margin-top:5px;letter-spacing:-.03em}
-.stage-row,.zone-row{border-bottom:1px solid var(--line);padding:12px 0}.stage-row:last-child,.zone-row:last-child{border:0}.zone-row{display:flex;justify-content:space-between;gap:10px}
-.stage-head{display:flex;justify-content:space-between;gap:12px;align-items:center}.stage-sub{color:var(--muted);font-size:12px;line-height:1.4;margin-top:4px}
-.fieldgrid.slim{margin:10px 0}.summary-triplet{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:11px 0}.summary-triplet > div{padding:10px;background:#f3f7f3;border-radius:10px}.summary-triplet span{display:block;font-size:11px;color:var(--muted)}.summary-triplet b{font-size:15px;overflow-wrap:anywhere}
-@media(max-width:720px){.summary-triplet{grid-template-columns:1fr 1fr}.stage-head{align-items:start}}
+      <section id="shoppingView" class="view" hidden>
+        <div class="section-heading"><div><div class="eyebrow">LO QUE FALTA</div><h1>Lista de compras</h1><p>Apunta lo que necesitas y márcalo cuando lo compres.</p></div></div>
+        <form id="shoppingForm" class="quick-inline" novalidate><input id="shoppingInput" placeholder="Ej. Cloro líquido, focos, jabón..." maxlength="150" required aria-label="Nueva compra"/><button class="primary" type="submit">Agregar</button></form>
+        <div id="shoppingList" class="item-list"></div>
+        <button id="clearPurchased" class="text-button" hidden>Eliminar productos comprados</button>
+      </section>
 
-.fixed-stepper {max-width:235px; margin-top:6px;} .fixed-stepper input{text-align:center; min-width:54px; flex:1;} .field .text-link{font-size:12px;font-weight:700; margin-top:5px; color:var(--green); background:transparent; border:0; padding:4px 0; cursor:pointer;}
-.work-week > span:first-child{flex:1;min-width:0;display:block}.work-week > span:first-child > b{display:block;font-size:14px;line-height:1.3}.work-week .muted-mini{display:block;margin-top:3px}.work-week .work-desc{display:block;line-height:1.45;margin-top:5px}.work-week .work-price{align-self:flex-start;font-variant-numeric:tabular-nums}
-/* v8 — Indicadores compactos y archivo de recibos accesible */
-.stats{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.45fr);gap:12px;align-items:stretch;margin-bottom:17px}
-.stats .stat{margin:0;min-width:0;box-shadow:0 3px 13px #103e3809}
-.stats .stat.dark{display:flex;flex-direction:column;justify-content:center;min-height:192px;background:linear-gradient(135deg,#103e38,#092f2a);padding:24px;border-radius:21px}
-.stats .stat.dark .val{font-size:clamp(29px,3.5vw,42px);line-height:1.08;letter-spacing:-.055em;overflow-wrap:anywhere;white-space:normal;margin:13px 0 6px;font-variant-numeric:tabular-nums}
-.stats .stat.dark .key{font-size:13px;color:#d7e7df}
-.stats .stat.dark .aux{font-size:11px;color:#bad0c5}
-.kpi-four{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.kpi-four .stat{padding:18px 19px;display:flex;flex-direction:column;justify-content:center;min-height:91px;border-radius:18px}
-.kpi-four .stat .val{font-size:clamp(19px,2.4vw,27px);font-variant-numeric:tabular-nums;margin-top:6px;white-space:normal;overflow-wrap:anywhere;line-height:1.15}
-.kpi-four .stat .aux{margin-top:4px;font-size:10px}
-.kpi-four .stat .key{font-size:11px;line-height:1.2}
-.kpi-four .stat.cost-m2{background:#edf6f0;border-color:#d4e9da}
-.receipt-archive-card{min-width:0}
-.receipt-shell:not(.archive-mode){grid-template-columns:minmax(0,1fr)}
-.receipt-shell:not(.archive-mode)>.receipt-archive-card{display:none}
-.receipt-shell.archive-mode{grid-template-columns:minmax(0,1fr)}
-.receipt-shell.archive-mode>.receipt-detail{display:none}
-.receipt-shell.archive-mode .archive-list{max-height:none;overflow:visible;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:9px}
-.receipt-shell.archive-mode .archive-week{margin:0;min-height:88px;background:white;box-shadow:0 2px 8px #103e380a;transition:border-color .12s,background .12s}
-.receipt-shell.archive-mode .archive-week:hover,.receipt-shell.archive-mode .archive-week:focus-visible{border-color:var(--green);background:#f2f8f3}
-.receipt-shell.archive-mode .archive-week.active{background:#e9f5eb}
-.archive-week .archive-amount{font-variant-numeric:tabular-nums;font-size:15px;white-space:nowrap}
-.archive-week .archive-state{display:inline-block;margin-top:5px;font-size:10px;font-weight:750;color:#39795f}
-.archive-week .archive-state.draft{color:#9c7230}
-.receipt-archive-card .archive-filter{margin:0 0 13px}
-.receipt-archive-card .archive-filter input{min-height:45px;background:#fafcf9}
-.receipt-directory-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px;flex-wrap:wrap}
-.receipt-directory-head h2{margin:0}
-.receipt-list-button{white-space:nowrap;flex-shrink:0}
-@media(max-width:770px){.stats{grid-template-columns:minmax(0,1fr)}.stats .stat.dark{min-height:148px;padding:19px 21px}.stats .stat.dark .val{font-size:clamp(29px,7.4vw,38px)}.kpi-four{gap:9px}.kpi-four .stat{padding:14px 14px;min-height:103px}.kpi-four .stat .val{font-size:clamp(18px,5vw,24px)}.receipt-shell.archive-mode .archive-list{grid-template-columns:1fr}.receipt-shell.archive-mode .archive-week{min-height:79px}}
-@media(max-width:380px){.kpi-four .stat{padding:12px;min-height:102px}.kpi-four .stat .val{font-size:20px}.receipt-directory-head .button{font-size:11px;padding:9px 10px}}
+      <section id="templatesView" class="view" hidden>
+        <div class="section-heading"><div><div class="eyebrow">UN TOQUE Y LISTO</div><h1>Tareas guardadas</h1><p>Guarda tareas habituales con su hora y repetición predeterminadas.</p></div><button id="newTemplate" class="primary">+ Guardar tarea</button></div>
+        <div class="template-datebar"><label for="templateScheduleDate">Agendar para</label><input type="date" id="templateScheduleDate" /></div>
+        <div id="templatesList" class="template-grid"></div>
+      </section>
+    </main>
 
-/* v9: acceso rápido, selección clara de movimiento y preferencias persistentes */
-.dashboard-add{display:flex;align-items:center;justify-content:space-between;gap:16px;background:#e6f3eb;border:1px solid #cce7d9;border-radius:17px;padding:14px 18px;margin:-2px 0 16px}
-.dashboard-add strong{font-size:16px;display:block;margin-bottom:3px;color:var(--deep)}
-.dashboard-add .small-note{color:#4a6e5d;max-width:440px}
-.dashboard-add-btn{flex-shrink:0;white-space:nowrap}
-.kinds-together{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px;margin-bottom:4px}
-.kinds-together button{padding:10px 5px;min-width:0;font-size:13px}
-.kind-explanation{font-size:12px;color:#667b73;min-height:22px;margin-bottom:13px}
-.register-layout{grid-template-columns:minmax(0,1.22fr) minmax(0,.78fr)}
-.register-main .fieldgrid{row-gap:10px}
-.preset-card{border-color:#d3e8d9;background:#fbfefb}
-.preset-card .sectiontop{margin-bottom:5px}
-.preset-details{margin:8px 0}
-.preset-details summary{font-weight:750;color:var(--green)}
-.preset-fields{margin-top:13px}
-.preset-current{margin-top:8px;padding-top:10px;border-top:1px solid #e2ebe4;font-size:12px;color:#527467;line-height:1.6}
-.record-help{margin-top:15px}
-.record-help p{margin:8px 0 0}
-.register-extras{padding:14px 18px}
-.register-extras .quick-actions{grid-template-columns:1fr 1fr}
-.archive-week .archive-amount{font-size:17px}
-.receipt-shell.archive-mode .archive-week{min-height:65px;align-items:center}
-@media(max-width:850px){.register-layout{grid-template-columns:minmax(0,1fr)}.preset-card{margin-bottom:12px}}
-@media(max-width:510px){.dashboard-add{align-items:stretch;padding:14px;gap:12px;flex-direction:column}.dashboard-add-btn{width:100%}.preset-fields{grid-template-columns:repeat(2,minmax(0,1fr))}}
-
-/* v10 · Recibo pensado para Liliana: un importe por concepto y una sola liquidación */
-.receipt-simple-heading{font-size:10px;font-weight:850;letter-spacing:.10em;text-transform:uppercase;color:var(--green);margin:17px 0 7px}
-.receipt-simple-line{display:flex;align-items:start;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #e9eee9;font-size:12px;line-height:1.4}
-.receipt-simple-line:last-child{border-bottom:0}
-.receipt-simple-line .concept{min-width:0;overflow-wrap:anywhere}
-.receipt-simple-line .concept small{display:block;font-size:10px;color:#7b8f83;line-height:1.4;margin-top:2px}
-.receipt-simple-line .amount{font-size:12px;font-weight:750;white-space:nowrap;font-variant-numeric:tabular-nums}
-.receipt-liquidation{margin-top:18px}
-.receipt-calc-line{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:12px;padding:8px 0}
-.receipt-calc-line>span{min-width:0}
-.receipt-calc-line strong{font-size:12px;white-space:nowrap;font-variant-numeric:tabular-nums}
-.receipt-calc-line.base{border-top:2px solid #b1c7bc;padding-top:13px;font-weight:800;font-size:14px}
-.receipt-calc-line.base strong{font-size:17px}
-.receipt-final-simple{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--dark);color:white;padding:14px 16px;border-radius:12px;margin:16px 0 0}
-.receipt-final-simple span{font-size:11px;font-weight:750;letter-spacing:.025em}
-.receipt-final-simple strong{font-size:22px;font-variant-numeric:tabular-nums;white-space:nowrap}
-.receipt-one-note{font-size:10px;color:var(--muted);margin:9px 0 3px;line-height:1.5}
-@media(max-width:360px){.receipt{padding:15px}.receipt h2{font-size:21px}.receipt-final-simple{padding:12px}.receipt-final-simple strong{font-size:19px}.receipt .code strong{font-size:16px}}
-</style></head><body>
-<div class="mast"><div class="app"><div class="brand"><div class="logo"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="m2 11 10-8 10 8"></path><path d="M5 10v11h14V10"></path><path d="M10 21v-7h4v7"></path></svg></div><div><div class="brand-sub">CONTROL DE OBRA</div><div class="brand-name">Casa Liliana</div></div><div class="header-right">San Agustín Yatareni, Oaxaca</div></div><div class="hero"><div><div class="eyebrow">Gastos · Jornadas · Recibos</div><h1 id="heroTitle">Semana 58</h1><p id="heroRange">11 al 17 de octubre 2026</p></div><div class="week-jump"><button aria-label="Semana anterior" onclick="changeWeek(-1)" type="button">‹</button><span id="weekIndicator">58 / 58</span><button aria-label="Semana siguiente" onclick="changeWeek(1)" type="button">›</button></div></div></div></div>
-<div class="app main"><div id="firstRun" class="card" style="display:none;border-color:#d9c08b;background:#fffbf1"><h2>Primero recupera tus datos</h2><p style="font-size:13px;color:#65563b">Esta instalación está vacía para no publicar tus cuentas. Importa tu último respaldo JSON de Casa Liliana, o el archivo privado de historial que te entregué por separado. <b>No subas el JSON a GitHub.</b></p><button class="button" onclick="goto('ajustes')">Ir a Ajustes y restaurar</button></div><nav class="tabs" id="tabs"></nav>
-<section class="view active" id="view-resumen"><div class="stats" id="stats"></div><div class="dashboard-add"><div><strong>¿Tienes un gasto nuevo?</strong><div class="small-note">Regístralo ahora con todas las opciones; los valores habituales ya estarán seleccionados.</div></div><button type="button" class="button dashboard-add-btn" onclick="quickNewExpense()">＋ Registrar gasto</button></div><div class="layout"><div><details class="card admin-details"><summary>Análisis acumulado de gastos (toca para ver)</summary><div id="categoryBars"></div><div class="hint" id="importNote">Historial importado del PDF.</div></details><div class="card"><div class="sectiontop"><h2>Movimientos de esta semana</h2><div class="btns" style="gap:7px"><button class="button small outline" onclick="goto('historial')">Buscar todos</button></div></div><div id="weekRecent"></div></div></div><div><div class="card"><div class="sectiontop"><h2>Resumen de la semana</h2><button class="button small outline" onclick="goto('recibo')">Ver recibos →</button></div><div id="weekTotals"></div></div><div class="card"><div class="sectiontop"><h2>Cuenta con Liliana</h2><span class="tag">Semana actual</span></div><div id="cashBalances"></div><div class="small-note">Las transferencias pendientes a Pablo aparecen por separado y no se cobran dos veces.</div></div></div></div></section>
-<section class="view" id="view-registrar"><div class="layout register-layout"><div class="card register-main"><div class="sectiontop"><h2>Registrar movimiento</h2><span class="tag">Nuevo</span></div>
-<div class="segment kinds-together" id="movementTabs" role="group" aria-label="Tipo de movimiento"><button class="active" data-kind="gasto" onclick="kindChange('gasto')" type="button">Gasto</button><button data-kind="anticipo" onclick="kindChange('anticipo')" type="button">Adelanto</button><button data-kind="reintegro" onclick="kindChange('reintegro')" type="button">Reembolso</button></div>
-<div id="kindExplanation" class="kind-explanation">Compra o trabajo de construcción.</div>
-<form id="recordForm" onsubmit="saveRecord(event)"><div class="fieldgrid">
-<div class="field"><label for="r-date">Fecha</label><input id="r-date" required type="date"/></div>
-<div class="field"><label for="r-amount">Importe ($ MXN)</label><input id="r-amount" inputmode="decimal" min="0.01" placeholder="0" required step="0.01" type="number"/></div>
-<div class="field full"><label for="r-description">Concepto</label><input id="r-description" maxlength="130" placeholder="Ej. 4 bultos de cemento" required/></div>
-<div class="field full" id="field-beneficiary"><label for="r-beneficiary">Proveedor (opcional)</label><input id="r-beneficiary" maxlength="95" placeholder="Ferretería, proveedor…"/></div>
-<div class="field" id="field-category"><label for="r-category">Categoría</label><select id="r-category"></select><details class="admin-details" style="padding:6px 10px;margin:7px 0 0"><summary>+ Crear categoría</summary><div class="category-create"><input id="categoryNew" maxlength="48" placeholder="Ventanas, muebles…" aria-label="Nombre de la categoría"/><button class="button light small" type="button" onclick="addCategory()">Añadir</button></div></details></div>
-<div class="field" id="field-zone"><label for="r-zone">Zona de obra</label><select id="r-zone"></select></div>
-<div class="field"><label for="r-payer" id="r-payer-label">Pagó</label><select id="r-payer"></select></div>
-<div class="field"><label for="r-method" id="r-method-label">Medio de pago</label><select id="r-method"><option>Efectivo</option><option>Transferencia</option><option>Tarjeta</option></select></div>
-<div class="field" id="field-holder" style="display:none"><label for="r-holder">Recibió</label><select id="r-holder"><option>Francesco</option><option>Anahí</option></select></div>
-</div><button class="button wide mt" id="recordSubmit" type="submit">Guardar gasto</button></form>
-<details class="admin-details record-help"><summary>¿Cómo afecta cada movimiento al saldo?</summary><p class="small-note">Gasto: se suma al costo de la obra, aunque lo haya pagado Liliana. Adelanto o reembolso: dinero entregado por Liliana a Anahí; reduce lo pendiente de liquidar, pero no aumenta el costo de construcción.</p></details></div>
-<div><div class="card preset-card"><div class="sectiontop"><div><h2 style="margin:0">Valores habituales</h2><div class="small-note">Se aplican a cada gasto nuevo. Puedes cambiarlos cuando cambie la etapa.</div></div></div><details id="expensePresetPanel" class="admin-details preset-details"><summary>Modificar valores habituales</summary><div class="fieldgrid preset-fields">
-<div class="field"><label for="pref-category">Categoría habitual</label><select id="pref-category"></select></div>
-<div class="field"><label for="pref-zone">Zona habitual</label><select id="pref-zone"></select></div>
-<div class="field"><label for="pref-payer">Quién suele pagar</label><select id="pref-payer"></select></div>
-<div class="field"><label for="pref-method">Medio habitual</label><select id="pref-method"><option>Efectivo</option><option>Transferencia</option><option>Tarjeta</option></select></div>
-</div><button type="button" class="button light wide mt" onclick="saveExpenseDefaults()">Guardar valores habituales</button></details><div class="preset-current" id="expensePresetSummary"></div></div>
-<div class="card register-extras"><details class="admin-details"><summary>Accesos rápidos y totales de este periodo</summary><div class="quick-actions"><button type="button" class="button light" onclick="fastExpense('Cemento','Materiales')">＋ Cemento</button><button type="button" class="button light" onclick="fastExpense('Arena','Materiales')">＋ Arena</button><button type="button" class="button light" onclick="fastExpense('Ferretería','Materiales')">＋ Ferretería</button><button type="button" class="button light" onclick="goto('jornadas')">◷ Jornadas</button></div><div class="line"></div><div id="registerSummary"></div></details></div></div></div></section>
-<section class="view" id="view-jornadas"><div class="card"><div class="sectiontop"><h2>Jornadas y horas</h2><span class="tag" id="workWeekTag">Semana 58</span></div><p class="muted" style="font-size:13px;margin:0 0 15px">Marca los días trabajados. Pulsa <b>+</b> o <b>−</b> para ajustar las horas en pasos de <b>½ hora</b>. También puedes escribir un importe.</p><div class="worker-grid" id="workerRows"></div><div class="hint" id="workRateHint">Configura las tarifas en Ajustes o restaura tu respaldo.</div></div><div class="layout"><div class="card"><h2>Conceptos semanales fijos</h2><div class="fieldgrid"><div class="field full"><label class="inline-check"><input id="w-supervise" onchange="updateWeekFlag()" type="checkbox"/> Incluir dirección y supervisión</label></div><div class="field full"><label class="inline-check"><input id="w-tools" onchange="updateWeekFlag()" type="checkbox"/> Incluir herramientas y madera</label></div></div><div class="line"></div>
-<div class="summary-row"><span>Días de actividad de Pablo o Francesco</span><b id="w-days">0 / 6</b></div>
-<div class="fieldgrid">
-  <div class="field"><label for="w-super-days">Días de supervisión (independientes)</label><div class="stepper fixed-stepper"><button type="button" aria-label="Quitar un día de supervisión" onclick="stepFixedDays('supervision',-1)">−</button><input id="w-super-days" type="number" min="0" max="7" step="1" inputmode="numeric" onchange="setFixedDays('supervision',this.value)"/><button type="button" aria-label="Añadir un día de supervisión" onclick="stepFixedDays('supervision',1)">+</button></div><div class="small-note" id="w-super-days-caption"></div><button type="button" class="text-link" onclick="resetFixedDays('supervision')">↺ Usar días de Pablo</button></div>
-  <div class="field"><label for="w-tools-days">Días de herramientas (independientes)</label><div class="stepper fixed-stepper"><button type="button" aria-label="Quitar un día de herramientas" onclick="stepFixedDays('tools',-1)">−</button><input id="w-tools-days" type="number" min="0" max="7" step="1" inputmode="numeric" onchange="setFixedDays('tools',this.value)"/><button type="button" aria-label="Añadir un día de herramientas" onclick="stepFixedDays('tools',1)">+</button></div><div class="small-note" id="w-tools-days-caption"></div><button type="button" class="text-link" onclick="resetFixedDays('tools')">↺ Usar días de Pablo</button></div>
-</div>
-<div class="summary-row"><span>Supervisión</span><b id="w-supervisor">$0</b></div><div class="summary-row"><span>Herramientas y madera</span><b id="w-tools-value">$0</b></div>
-<div class="hint">Supervisión y herramientas toman inicialmente los días trabajados por Pablo. Puedes ajustar cada cantidad por separado; al modificarla dejará de seguir automáticamente a Pablo. Usa «Usar días de Pablo» para volver al cálculo inicial. Los importes se redondean a pesos completos.</div>
-<div class="hint">Francesco, supervisión y herramientas quedan <b>pendientes de pago por Liliana</b> hasta que se liquide el recibo. No se anotan como dinero ya pagado por Anahí.</div>
-<div class="fieldgrid"><div class="field full"><div class="hint" style="margin:0"><b>Pablo · división del sueldo</b>. Cambia uno de los dos importes y el otro se calcula solo.</div></div><div class="field"><label for="w-pablo-transfer">Pablo · transferencia ($)</label><input id="w-pablo-transfer" min="0" oninput="changePabloSplit('transfer',this.value)" step="0.01" type="number" inputmode="decimal"/></div><div class="field"><label for="w-pablo-cash">Pablo · efectivo ($)</label><input id="w-pablo-cash" min="0" oninput="changePabloSplit('cash',this.value)" step="0.01" type="number" inputmode="decimal"/></div><div class="field"><label for="w-transfer-payer">Transfiere</label><select id="w-transfer-payer" onchange="weekChangePayment()"></select></div><div class="field"><label for="w-cash-payer">Entrega efectivo</label><select id="w-cash-payer" onchange="weekChangePayment()"></select></div><div class="field full"><label for="w-transfer-status">Transferencia a Pablo</label><select id="w-transfer-status" onchange="setTransferStatus(this.value)"><option value="pendiente">Pendiente · Liliana paga después del recibo</option><option value="pagado">Ya realizada</option></select><div class="small-note">Se muestra como «Transferencia por realizar a Pablo» y no se cuenta como dinero ya pagado.</div></div></div></div><div class="card"><h2>Resultado calculado</h2><div id="w-result"></div><button class="button wide mt" onclick="postPayroll()">Guardar salarios y conceptos de la semana</button><div class="hint alert" id="payrollWarning">Guardar prepara los gastos de la semana. Francesco, dirección y herramientas quedan pendientes de liquidación.</div></div></div></section>
-<section class="view" id="view-recibo">
- <div class="receipt-directory-head"><div><span class="hide" id="receiptTag"></span><h2 style="margin:0">Recibos semanales</h2><div class="small-note">Consulta, descarga o vuelve a abrir cualquier recibo.</div></div><button id="receiptListToggle" class="button outline receipt-list-button" type="button" onclick="toggleReceiptList()" aria-expanded="false" aria-controls="receiptArchive">☰ Ver todos los recibos</button></div>
- <div class="receipt-shell" id="receiptShell">
-  <div class="card receipt-archive-card"><div class="sectiontop"><div><h2 class="receipt-archive-title">Todos los recibos</h2><div class="small-note" id="archiveCount">Cerrados y borradores con gastos, sin semanas vacías.</div></div></div><div class="archive-filter"><input id="receiptArchiveSearch" type="search" placeholder="Buscar número de recibo o fecha" aria-label="Buscar recibos" oninput="renderReceiptArchive()" autocomplete="off" /></div><div id="receiptArchive" class="archive-list"></div><div class="small-note" style="margin-top:12px">Los recibos cerrados conservan el corte original.</div></div>
-  <div class="receipt-detail">
-   <div class="card receipt-current">
-    <div class="sectiontop"><h2 style="margin:0">Consultar semana</h2><span id="receiptState" class="archive-pill draft">Borrador</span></div>
-    <div class="receipt-toolbar"><button class="button light small" onclick="changeWeek(-1)" aria-label="Semana anterior">‹ Anterior</button><select id="receiptWeekSelect" aria-label="Elegir semana" onchange="chooseReceiptWeek(this.value)"></select><button class="button light small" onclick="changeWeek(1)" aria-label="Semana siguiente">Siguiente ›</button></div>
-    <div id="receiptVersions" class="version-bar" style="margin-top:12px"></div>
-    <div id="receiptEditor" style="margin-top:15px">
-      <div class="prior-box" style="margin-bottom:13px"><label for="receiptSerial">N.º de recibo (independiente de la semana del calendario)</label><div class="prior-tools"><input id="receiptSerial" type="number" min="1" max="9999" step="1" inputmode="numeric" onchange="setReceiptNo(this.value)"/><span class="small-note">Consecutivo; puedes corregirlo.</span></div></div>
-      <div class="prior-box"><label for="receiptPrior">Saldo anterior ($). Positivo = Liliana nos debe; negativo = saldo a favor de Liliana</label><div class="prior-tools"><input id="receiptPrior" type="number" step="0.01" inputmode="decimal" onchange="setPriorOverride(this.value)" aria-label="Modificar el saldo anterior de esta semana"/><button class="button light small" onclick="resetPriorOverride()" title="Usar saldo automático de la semana previa">↺ Automático</button></div><div class="small-note" style="margin-top:8px" id="priorCaption">Puedes cambiarlo en esta semana sin alterar recibos anteriores.</div></div><div class="small-note">El avance de obra se anota en <button class="text-link" type="button" onclick="goto('obra')" style="border:0;background:none;color:var(--green);font-weight:750;padding:0">Obra</button> y no aparece en este recibo.</div>
-      <div class="line"></div><h3>Otras cuentas con Liliana</h3>
-      <div class="small-note" style="margin-bottom:11px">Airbnb, compras personales y otros ajustes. Estas líneas solo afectan el saldo entre ustedes, no el gasto de construcción.</div>
-      <div id="receiptAdjustments"></div>
-      <div class="adjustment-entry" style="margin-top:10px"><div class="field"><label for="adjustDesc">Concepto</label><input id="adjustDesc" placeholder="Ej. Airbnb septiembre" maxlength="130"/></div><div class="field"><label for="adjustSign">Efecto</label><select id="adjustSign"><option value="1">+ Sumar</option><option value="-1">− Descontar</option></select></div><div class="field adjust-amount"><label for="adjustAmount">Importe ($)</label><input id="adjustAmount" type="number" step="0.01" min="0.01" inputmode="decimal" placeholder="0.00"/></div><button class="button light" onclick="addReceiptAdjustment()">+ Añadir</button></div>
-      <div class="line"></div><button id="closeReceiptBtn" class="button wide" onclick="closeReceipt()">✓ Cerrar y guardar recibo</button>
-      <div class="small-note" style="margin-top:10px">Cada cierre guarda una versión con su fecha y saldo. Si rectificas un recibo, el anterior permanece archivado.</div>
-    </div>
-    <div id="receiptLocked" class="receipt-edit-locked" style="display:none;margin-top:13px"></div>
-    <div class="btns" style="margin-top:14px"><button class="button" onclick="downloadReceipt()">↓ Descargar PNG</button><button class="button light" onclick="shareReceipt()">↗ Compartir</button></div>
-   </div>
-   <div id="receiptSavedMeta" class="receipt-saved-meta"></div>
-   <div class="receipt" id="receiptPreview"></div>
+    <button id="floatingAdd" class="fab" aria-label="Agregar una tarea, pendiente o compra">+</button>
   </div>
- </div>
-</section>
-<section class="view" id="view-obra"><div class="sectiontop"><div><h2 style="margin:0">Avances de la obra</h2><div class="small-note">Una lista de semanas, su gasto y lo que se hizo. No se incluye en los recibos.</div></div><span class="tag" id="obraWeekTag"></span></div><div class="layout"><div><div class="card"><h2 id="obraEditTitle">Semana seleccionada</h2><label for="obraNote">¿Qué se hizo en esta semana?</label><textarea id="obraNote" rows="4" maxlength="1200" placeholder="Ej. Se terminaron las ventanas y se trabajó en el baño..." oninput="saveNote(this.value)"></textarea><div class="small-note" style="margin-top:8px">Se guarda automáticamente. Puedes corregirlo también después de cerrar el recibo.</div><div class="summary-row total"><span>Gasto de esta semana</span><b id="obraWeekTotal"></b></div></div><div class="card"><div class="sectiontop"><h2 style="margin:0">Historial semanal</h2><span class="tag">Construcción</span></div><input id="obraSearch" class="searchbox" placeholder="Buscar semana o trabajo realizado…" oninput="renderObraList()" aria-label="Buscar avance semanal"/><div id="obraList"></div></div></div><div><div class="card"><div class="sectiontop"><h2 style="margin:0">Costo por metro cuadrado</h2><span class="tag">Obra completa</span></div><div id="obraMetric"></div></div>
-<details class="card admin-details" open><summary>Cortes por etapa · hasta la losa, albañilería…</summary><div id="obraMilestones"></div>
-<details class="admin-details"><summary>+ Agregar corte (opcional)</summary><div class="fieldgrid slim"><div class="field"><label>Nombre</label><input id="milestoneName" maxlength="65" placeholder="Ej. Final de albañilería"/></div><div class="field"><label>Hasta la semana</label><input id="milestoneWeek" type="number" min="1" step="1" placeholder="Ej. 42"/></div></div><button class="button small" onclick="addMilestone()">Guardar corte</button></details>
-<div class="small-note" style="margin-top:9px">Cada corte suma los gastos hasta la semana indicada. El costo de la etapa se calcula entre ese corte y el anterior; no se vuelve a sumar el mismo gasto.</div></details>
-<details class="card admin-details"><summary>Costos por zona · arriba / abajo</summary><div id="obraZones"></div><div class="small-note" style="margin-top:8px">Los gastos antiguos quedan sin clasificar hasta que elijas la zona en Movimientos. No se asignan automáticamente para evitar cifras falsas.</div></details>
-<details class="card admin-details" open><summary>Gasto acumulado por categoría</summary><div id="obraCategories"></div><div class="small-note" style="margin-top:12px">Para crear categorías, ve a <b>Gasto → Categoría → + Crear categoría</b>. También puedes cambiar las categorías de gastos anteriores en Historial.</div></details><div class="card"><div class="sectiontop"><h2 style="margin:0">Consultar</h2><div class="btns" style="gap:7px"><button class="button outline small" onclick="goto('historial')">Movimientos</button><button class="button outline small" onclick="goto('ajustes')">Ajustes</button></div></div><p class="muted" style="font-size:12px;margin:0">Los importes se calculan a partir de todos los gastos de cada semana. No se suman los adelantos, reembolsos ni otros ajustes personales.</p></div></div></div></section>
-<section class="view" id="view-historial"><div class="card"><div class="sectiontop"><h2>Entradas y salidas · Movimientos</h2><span class="tag" id="rowCount"></span></div><div class="fieldgrid"><div class="field full"><input class="searchbox" id="search" oninput="resetMovementPage()" placeholder="Buscar concepto: proyecto, cemento, Pablo…"/></div><div class="field"><label>Periodo</label><select id="histWeek" onchange="resetMovementPage()"><option value="all">Todas las semanas</option><option value="selected">Semana seleccionada</option></select></div><div class="field"><label>Categoría</label><select id="histCat" onchange="resetMovementPage()"><option value="all">Todas las categorías</option></select></div>
-<div class="field"><label>Quién pagó</label><select id="histPayer" onchange="resetMovementPage()"><option value="all">Liliana y Anahí</option><option value="Liliana">Liliana</option><option value="Anahí">Anahí</option></select></div>
-<div class="field"><label>Zona de obra</label><select id="histZone" onchange="resetMovementPage()"></select></div>
-<div class="field"><label>Desde (fecha)</label><input type="date" id="histFrom" onchange="resetMovementPage()"></div>
-<div class="field"><label>Hasta (fecha)</label><input type="date" id="histTo" onchange="resetMovementPage()"></div>
-</div><div class="small-note">Incluye gastos, adelantos y reembolsos. Puedes buscar por descripción, por ejemplo «Proyecto». Los ajustes libres de Airbnb también se pueden buscar y se muestran separados de los gastos de construcción.</div>
-<div class="summary-triplet" id="historyTotals"></div>
-<div class="pillbar" id="historyType"><button class="active" data-filter="all" onclick="setHistType('all')">Todos</button><button data-filter="gasto" onclick="setHistType('gasto')">Gastos</button><button data-filter="anticipo" onclick="setHistType('anticipo')">Adelantos</button><button data-filter="reintegro" onclick="setHistType('reintegro')">Reembolsos</button><button data-filter="ajuste" onclick="setHistType('ajuste')">Otros ajustes</button></div><div id="historyList"></div><div class="btns" id="pagingControls"><button class="button light" onclick="historyPage=Math.max(0,historyPage-1);renderHistory()">Menos movimientos</button><button class="button light" onclick="historyPage++;renderHistory()">Más movimientos</button></div></div></section>
-<section class="view" id="view-ajustes"><div class="layout"><div class="card"><h2>Tarifas editables</h2><div class="fieldgrid"><div class="field"><label>Día de trabajo ($)</label><input id="s-day" min="0" step="1" type="number"/></div><div class="field"><label>Hora extra / menos ($)</label><input id="s-hour" min="0" step="1" type="number"/></div><div class="field"><label>Supervisión semanal ($)</label><input id="s-super" min="0" step="1" type="number"/></div><div class="field"><label>Herramientas semanales ($)</label><input id="s-tools" min="0" step="1" type="number"/></div><div class="field full"><label>Días base por semana</label><input id="s-base" max="7" min="1" step="1" type="number"/></div></div><button class="button wide mt" onclick="saveSettings()">Guardar tarifas</button><div class="hint">Las tarifas nuevas se aplican al recalcular semanas. Los importes ya registrados no se modificarán hasta que guardes nuevamente sus jornadas.</div></div><div class="card"><details class="admin-details"><summary>Saldo anterior con Anahí (opcional)</summary><p class="muted" style="font-size:13px;margin-top:12px">Indica el saldo ya conciliado antes de empezar a utilizar la app. Positivo: Liliana debe a Anahí. Negativo: Anahí tiene dinero adelantado por Liliana. No calculamos automáticamente deudas antiguas usando el PDF.</p><div class="fieldgrid"><div class="field"><label for="s-balance">Saldo anterior ($)</label><input id="s-balance" step="0.01" type="number"/></div><div class="field"><label for="s-start-week">Desde la semana</label><input id="s-start-week" min="1" step="1" type="number"/></div></div><button class="button wide mt" onclick="saveOpening()">Guardar saldo inicial</button></details></div><div class="card"><details class="admin-details" open><summary>Superficies para calcular $/m²</summary>
-<div class="fieldgrid slim"><div class="field"><label for="s-area">Área total de referencia (m²)</label><input id="s-area" type="number" min="0.01" step="0.01"/></div><div class="field"><label for="s-upper-area">Ampliación arriba (m², opcional)</label><input id="s-upper-area" type="number" min="0" step="0.01"/></div><div class="field"><label for="s-lower-area">Reforma abajo (m², opcional)</label><input id="s-lower-area" type="number" min="0" step="0.01"/></div></div>
-<button class="button wide" onclick="saveAreas()">Guardar superficies</button>
-<div class="small-note" style="margin-top:9px">Configura la superficie desde Ajustes o restaura el archivo privado para recuperar los valores de referencia. Las áreas de arriba y abajo pueden ser diferentes de la superficie total; no se suman automáticamente.</div></details></div>
-<div class="card"><h2>Instalación en Android</h2><p class="muted" style="font-size:13px">Con la app publicada en HTTPS, abre el menú ⋮ de Chrome y selecciona <b>Instalar aplicación</b> o <b>Añadir a pantalla de inicio</b>. Después podrás abrirla desde su icono y usarla sin conexión.</p><button class="button light" style="display:none" id="installPwaButton" onclick="installCasaLiliana()">Instalar Casa Liliana</button></div><div class="card"><h2>Respaldo y exportación</h2><p class="muted" style="font-size:13px">Esta edición guarda los datos en el navegador de este dispositivo, <b>no en una cuenta en la nube</b>. Haz respaldos frecuentes para no perder información si borras datos del navegador o cambias de teléfono.</p><div class="quick-actions"><button class="button" onclick="exportBackup()">↓ Respaldo JSON</button><button class="button outline" onclick="exportCsv()">↓ Excel / CSV</button></div><div class="line"></div><label for="importBackup">Restaurar respaldo JSON</label><input accept=".json,application/json" id="importBackup" onchange="importBackup(event)" type="file"/><div class="hint alert">Al restaurar, el archivo sustituye los movimientos y las jornadas guardados en este navegador. Haz antes un respaldo si los necesitas.</div><div class="line"></div><h3>Origen histórico</h3><p class="muted" style="font-size:12px">Para recuperar los movimientos históricos, importa tu archivo JSON privado desde este dispositivo. Nunca subas ese archivo a GitHub. Si ya usabas la versión anterior, importa el respaldo más reciente que exportaste desde ella.</p></div></div></section>
-</div><nav class="foot-nav" id="footNav"></nav><div class="toast" id="toast"></div><div class="modal" id="editModal"><div class="modal-panel"><div class="modal-head"><h2>Editar movimiento</h2><button class="modal-close" onclick="closeEdit()">×</button></div><form onsubmit="saveEdit(event)"><div class="fieldgrid"><div class="field"><label>Fecha</label><input id="e-date" required="" type="date"/></div><div class="field"><label>Importe</label><input id="e-amount" min="0.01" required="" step="0.01" type="number"/></div><div class="field full"><label>Descripción</label><input id="e-desc" required=""/></div><div class="field full"><label>Pagado a / proveedor</label><input id="e-beneficiary" maxlength="95" placeholder="Nombre del proveedor o persona"/></div><div class="field"><label>Categoría</label><select id="e-cat"></select></div><div class="field"><label>Zona de obra</label><select id="e-zone"></select></div><div class="field"><label>Pagador</label><select id="e-payer"></select></div><div class="field"><label>Medio de pago</label><select id="e-method"><option>Efectivo</option><option>Transferencia</option><option>Tarjeta</option></select></div><div class="field"><label>Tipo</label><select id="e-type"><option value="gasto">Gasto</option><option value="anticipo">Adelanto</option><option value="reintegro">Reembolso</option></select></div><div class="field full" style="display:none"><label>Recibió (anticipo / reembolso)</label><select id="e-holder"><option>Francesco</option><option>Anahí</option></select></div></div><div class="btns"><button class="button red" onclick="deleteEdit()" type="button">Eliminar</button><button class="button" type="submit">Guardar cambios</button></div></form></div></div>
-<script>const HISTORY_DATA=[];</script>
-<script>'use strict';
-const KEY='liliana-obra-v1', WEEK_BASE=Date.UTC(2025,8,13), DAY=86400000;
-const DAYS=['Lun','Mar','Mié','Jue','Vie','Sáb'];
-const BASE_CATEGORIES=['Materiales','Pablo','Francesco','Supervisión','Herramientas y madera','Proyecto','Ventanas','Muebles','Otros'];
-const PAYERS=['Anahí','Liliana'];
-const ZONES=['Sin asignar','Ampliación arriba','Reforma planta baja','Común / ambas zonas'];
-const CURRENCY=new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',minimumFractionDigits:0,maximumFractionDigits:2});
-const CURRENCY_CENTS=new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',minimumFractionDigits:2,maximumFractionDigits:2});
-const fmt=n=>{let v=Number(n)||0;return Math.abs(v-Math.round(v))<0.000001?CURRENCY.format(v):CURRENCY_CENTS.format(v);},fmtRec=n=>CURRENCY_CENTS.format(Number(n)||0),num=n=>Number(n)||0;
-const $=id=>document.getElementById(id);
-const todayISO=()=>{let d=new Date();let p=n=>String(n).padStart(2,'0');return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;};
-const isoDate=iso=>new Date((iso||todayISO())+'T12:00:00');
-const unixDay=iso=>{let [y,m,d]=(iso||todayISO()).split('-').map(Number);return Date.UTC(y,m-1,d);};
-const pad=n=>String(n).padStart(2,'0');
-const isoUTC=t=>{let d=new Date(t);return `${d.getUTCFullYear()}-${pad(d.getUTCMonth()+1)}-${pad(d.getUTCDate())}`;};
-const localDate=iso=>isoDate(iso).toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});
-const shortDate=iso=>isoDate(iso).toLocaleDateString('es-MX',{day:'2-digit',month:'short'});
-const weekForDate=iso=>Math.max(1,Math.floor((unixDay(iso)-WEEK_BASE+6*DAY)/(7*DAY))+1);
-const datesForWeek=n=>{const end=WEEK_BASE+(Number(n)-1)*7*DAY;return [isoUTC(end-5*DAY),isoUTC(end)];};
-const dateWeek=d=>weekForDate(d.date);
-const typeName=t=>({gasto:'Gasto',anticipo:'Adelanto',reintegro:'Reembolso',ajuste:'Ajuste de recibo'}[t]||t);
-const payerName=p=>p==='Anahi'?'Anahí':p;
-const safe=s=>String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');
-const round=n=>Math.round((Number(n)||0)*100)/100;
-const sum=(arr,cb=x=>x)=>round(arr.reduce((a,b)=>a+num(cb(b)),0));
-let kind='gasto',view='resumen',selectedWeek=weekForDate(todayISO()),histType='all',historyPage=0,editingId=null,receiptMode='saved',receiptVersion=null,obraExpanded=false,receiptListOpen=false;
-const DEFAULT_EXPENSE_PREFS={category:'Materiales',zone:'Sin asignar',payer:'Anahí',method:'Efectivo'};
-const DEFAULT_SETTINGS={areaM2:0,upperAreaM2:0,lowerAreaM2:0,day:0,hour:0,supervision:0,tools:0,baseDays:6,openingWeek:58,openingBalance:0,opening:{cashFran:0,cashAnahi:0,owedFran:0,owedAnahi:0},expenseDefaults:{...DEFAULT_EXPENSE_PREFS}};
-let db;
-try{let raw=localStorage.getItem(KEY);db=raw?JSON.parse(raw):null;}catch(e){db=null;}
-if(!db||!Array.isArray(db.records))db={version:5,records:[],weeks:{},settings:{...DEFAULT_SETTINGS},started:todayISO()};
-db.settings={...DEFAULT_SETTINGS,...(db.settings||{})};db.settings.opening={...DEFAULT_SETTINGS.opening,...(db.settings.opening||{})};db.settings.expenseDefaults={...DEFAULT_EXPENSE_PREFS,...(db.settings.expenseDefaults||{})};db.weeks=db.weeks||{};db.receipts=db.receipts||{};db.milestones=Array.isArray(db.milestones)?db.milestones:[];db.categories=Array.isArray(db.categories)?db.categories:BASE_CATEGORIES.slice();
-function getCategories(){return [...new Set([...BASE_CATEGORIES,...db.categories,...db.records.filter(r=>r.type==='gasto').map(r=>r.category)].filter(Boolean))];}
-// Avances que figuran explícitamente en «Riassunto» del archivo fuente. Nunca reemplazan notas del usuario.
-const LEGACY_WEEKLY_SUMMARY={};
-const LEGACY_PROGRESS={};
-if(!db.migrations?.legacyProgressV4){for(const [wk,note] of Object.entries(LEGACY_PROGRESS)){db.weeks[wk]=db.weeks[wk]||{};if(!db.weeks[wk].note)db.weeks[wk].note=note;}db.migrations={...(db.migrations||{}),legacyProgressV4:true};}
-const store=()=>{try{localStorage.setItem(KEY,JSON.stringify(db));return true;}catch(e){toast('No fue posible guardar en el navegador: crea un respaldo.');return false;}};
-store();
-function toast(s){let el=$('toast');el.textContent=s;el.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove('show'),3200);}
-function init(){
- const icons={resumen:'<path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/>',registrar:'<path d="M12 5v14M5 12h14"/>',jornadas:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',recibo:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2zM9 9h6M9 13h6"/>',obra:'<path d="M3 20h18M4 17l5-6 4 3 7-8M4 6h4"/>',historial:'<path d="M4 5h16M4 12h16M4 19h16"/>',ajustes:'<path d="M4 7h16M7 7v-3M17 12v-3M4 12h16M4 17h16M9 17v-3"/>'};
- let names={resumen:'Resumen',registrar:'Gasto',jornadas:'Jornadas',recibo:'Recibos',obra:'Obra',historial:'Movimientos',ajustes:'Ajustes'};
- $('tabs').innerHTML=Object.keys(names).map(k=>`<button type="button" data-view="${k}" onclick="goto('${k}')">${names[k]}</button>`).join('');
- $('footNav').innerHTML=['resumen','registrar','jornadas','recibo','obra'].map(k=>`<button type="button" data-view="${k}" onclick="goto('${k}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${icons[k]}</svg>${names[k]}</button>`).join('');
- refreshCategories(db.settings.expenseDefaults.category);
- refreshZones();
- $('r-payer').innerHTML=opt(PAYERS,db.settings.expenseDefaults.payer);$('e-payer').innerHTML=opt(PAYERS);
- refreshExpensePreferences();
- 
- ['w-transfer-payer','w-cash-payer'].forEach(id=>$(id).innerHTML=opt(PAYERS,'Liliana'));
- $('r-date').value=todayISO();kindChange('gasto');applyExpenseDefaults();syncReceiptMode();render();
-}
-function refreshZones(){let options=opt(ZONES);for(let id of ['r-zone','e-zone','pref-zone'])if($(id))$(id).innerHTML=options;if($('histZone'))$('histZone').innerHTML='<option value="all">Todas las zonas</option>'+options;}
-function refreshCategories(selected){const list=getCategories();$('r-category').innerHTML=opt(list,selected||$('r-category').value||'Materiales');if($('pref-category'))$('pref-category').innerHTML=opt(list,db.settings.expenseDefaults.category);$('e-cat').innerHTML=opt(list);$('histCat').innerHTML='<option value="all">Todas las categorías</option>'+opt(list);}
-function addCategory(){const el=$('categoryNew'),name=el.value.trim().replace(/\s+/g,' ');if(name.length<2||name.length>48){toast('Escribe una categoría de 2 a 48 caracteres.');return;}const existing=getCategories().find(x=>x.toLocaleLowerCase()===name.toLocaleLowerCase());if(existing){$('r-category').value=existing;toast('Categoría existente seleccionada.');el.value='';return;}db.categories.push(name);store();refreshCategories(name);refreshExpensePreferences();el.value='';toast('Categoría creada.');}
-function opt(arr,sel){return arr.map(x=>`<option value="${safe(x)}"${x===sel?' selected':''}>${safe(x)}</option>`).join('');}
-function validExpenseDefaults(){const p=db.settings.expenseDefaults||DEFAULT_EXPENSE_PREFS;return {category:getCategories().includes(p.category)?p.category:'Materiales',zone:ZONES.includes(p.zone)?p.zone:'Sin asignar',payer:PAYERS.includes(p.payer)?p.payer:'Anahí',method:['Efectivo','Transferencia','Tarjeta'].includes(p.method)?p.method:'Efectivo'};}
-function refreshExpensePreferences(){const p=validExpenseDefaults();for(const [key,id] of [['category','pref-category'],['zone','pref-zone'],['payer','pref-payer'],['method','pref-method']]){if($(id))$(id).value=p[key];}if($('pref-payer'))$('pref-payer').innerHTML=opt(PAYERS,p.payer);if($('expensePresetSummary'))$('expensePresetSummary').innerHTML=`Actual: <b>${safe(p.category)}</b> · ${safe(p.zone)}<br>${safe(p.payer)} · ${safe(p.method)}`;}
-function applyExpenseDefaults(){const p=validExpenseDefaults();for(const [key,id] of [['category','r-category'],['zone','r-zone'],['payer','r-payer'],['method','r-method']]){if($(id))$(id).value=p[key];}}
-function saveExpenseDefaults(){const p={category:$('pref-category').value,zone:$('pref-zone').value,payer:$('pref-payer').value,method:$('pref-method').value};if(!getCategories().includes(p.category)||!ZONES.includes(p.zone)||!PAYERS.includes(p.payer)||!['Efectivo','Transferencia','Tarjeta'].includes(p.method)){toast('Revisa los valores habituales.');return;}db.settings.expenseDefaults=p;if(!store())return;applyExpenseDefaults();refreshExpensePreferences();$('expensePresetPanel').open=false;toast('Valores habituales guardados para los próximos gastos.');}
-function quickNewExpense(){goto('registrar');kindChange('gasto');if(!$('r-description').value&&!$('r-amount').value)applyExpenseDefaults();$('r-description').focus();}
 
-function goto(name){view=name;document.querySelectorAll('.view').forEach(el=>el.classList.toggle('active',el.id==='view-'+name));document.querySelectorAll('[data-view]').forEach(el=>el.classList.toggle('active',el.dataset.view===name));window.scrollTo({top:0,behavior:'instant'});render();}
-function syncReceiptMode(){const versions=db.receipts[selectedWeek]||[];receiptMode=versions.length?'saved':'draft';receiptVersion=versions.length?versions.length-1:null;}
-// La semana-calendario se conserva internamente para las fechas y la contabilidad.
-// Los números públicos de recibo son consecutivos solamente para periodos con gastos.
-function activeReceiptWeeks(){
- const nums=new Set();
- for(const r of db.records){if(r.type==='gasto'){const w=r.weekLegacy?Number(r.weekLegacy):dateWeek(r);if(Number.isInteger(w)&&w>0)nums.add(w);}}
- for(const [k,v] of Object.entries(db.receipts||{})){if(Array.isArray(v)&&v.length&&Number(k)>0)nums.add(Number(k));}
- for(const [k,v] of Object.entries(db.weeks||{})){
-  if(!Number.isInteger(Number(k))||Number(k)<1)continue;
-  if((v.adjustments||[]).length)nums.add(Number(k));
- }
- return [...nums].sort((a,b)=>a-b);
-}
-function receiptNo(week=selectedWeek,snapshot=null){
- if(snapshot&&Number.isInteger(Number(snapshot.receiptNumber))&&Number(snapshot.receiptNumber)>0)return Number(snapshot.receiptNumber);
- const custom=Number(db.weeks?.[week]?.receiptNumber);
- if(Number.isInteger(custom)&&custom>0)return custom;
- const savedLast=(db.receipts?.[week]||[]).at(-1);
- if(savedLast&&Number.isInteger(Number(savedLast.receiptNumber))&&Number(savedLast.receiptNumber)>0)return Number(savedLast.receiptNumber);
- const list=activeReceiptWeeks(),before=list.filter(n=>n<=week).length;
- return before+(list.includes(Number(week))?0:1);
-}
-function setReceiptNo(value){
- const no=Number(value);
- if(!Number.isSafeInteger(no)||no<1||no>9999){toast('Usa un número de recibo positivo y entero.');renderReceipt();return;}
- const used=activeReceiptWeeks().filter(n=>n!==selectedWeek).some(n=>receiptNo(n,(db.receipts[n]||[]).at(-1))===no);
- if(used){toast('Ese número ya está asignado a otro recibo.');renderReceipt();return;}
- getWeek().receiptNumber=no;store();render();toast('Número de recibo actualizado.');
-}
-function changeWeek(delta){
- const list=activeReceiptWeeks();
- if(delta<0){selectedWeek=([...list].reverse().find(n=>n<selectedWeek))||Math.max(1,selectedWeek-1);}
- else{
-  const next=list.find(n=>n>selectedWeek);
-  selectedWeek=next||Math.max(selectedWeek+1,weekForDate(todayISO()));
- }
- syncReceiptMode();render();
-}
-function chooseReceiptWeek(week){const n=Number(week);if(!Number.isInteger(n)||n<1)return;selectedWeek=n;syncReceiptMode();render();}
-function recordsForWeek(n){return db.records.filter(r=>(r.weekLegacy?Number(r.weekLegacy):dateWeek(r))===Number(n));}
-function expenses(arr){return arr.filter(r=>r.type==='gasto');}
-function historical(r){return String(r.source||'').startsWith('PDF')||r.weekLegacy!=null;}
-function getWeek(n=selectedWeek){if(!db.weeks[n])db.weeks[n]={days:{Pablo:{},Francesco:{}},flags:{supervise:true,tools:true},payments:{fran:'Liliana',super:'Liliana',tools:'Liliana',transfer:0,cash:0,transferPayer:'Liliana',cashPayer:'Anahí',transferStatus:'pendiente'},adjustments:[],note:''};let w=db.weeks[n];w.days=w.days||{Pablo:{},Francesco:{}};w.days.Pablo=w.days.Pablo||{};w.days.Francesco=w.days.Francesco||{};w.flags={supervise:true,tools:true,...(w.flags||{})};w.fixedDays={supervision:null,tools:null,...(w.fixedDays||{})};w.payments={fran:'Liliana',super:'Liliana',tools:'Liliana',...w.payments};if(w.payments.transfer===undefined){w.payments.transfer=num(w.payments.pabloLiliana);w.payments.cash=num(w.payments.pabloAnahi);w.payments.transferPayer='Liliana';w.payments.cashPayer='Anahí';w.payments.splitTouched=num(w.payments.pabloLiliana)+num(w.payments.pabloAnahi)>0;}w.payments.transferPayer=w.payments.transferPayer||'Liliana';w.payments.cashPayer=w.payments.cashPayer||'Anahí';if(!w.payments.transferStatus){const oldPayment=db.records.find(r=>Number(r.autoWeek)===Number(n)&&r.category==='Pablo'&&r.method==='Transferencia');w.payments.transferStatus=oldPayment?.status==='pagado'?'pagado':'pendiente';}for(const k of ['fran','super','tools','transferPayer','cashPayer'])if(!PAYERS.includes(w.payments[k]))w.payments[k]=k==='cashPayer'?'Anahí':'Liliana';w.adjustments=Array.isArray(w.adjustments)?w.adjustments:[];return w;}
-function render(){const b=$('firstRun');if(b)b.style.display=(db.records.length===0 && Object.keys(db.receipts||{}).length===0)?'block':'none';const [from,to]=datesForWeek(selectedWeek);$('heroTitle').textContent='Recibo '+receiptNo();$('heroRange').textContent=`${localDate(from)} — ${localDate(to)}`;$('weekIndicator').textContent='Recibo n.º '+receiptNo();$('workWeekTag').textContent='Recibo '+receiptNo();$('receiptTag').textContent='Recibo '+receiptNo();
- if(view==='registrar'&&!$('r-description').value&&!$('r-amount').value){$('r-date').value=(selectedWeek===weekForDate(todayISO())?todayISO():datesForWeek(selectedWeek)[1]);}
- if(view==='resumen')renderDashboard();if(view==='registrar'){refreshExpensePreferences();renderRegistrar();}if(view==='jornadas')renderWork();if(view==='recibo')renderReceipt();if(view==='obra')renderObra();if(view==='historial')renderHistory();if(view==='ajustes')renderSettings();}
-function renderDashboard(){
- const all=expenses(db.records),weekly=recordsForWeek(selectedWeek),w=expenses(weekly);
- const amounts={total:sum(all,r=>r.amount),week:sum(w,r=>r.amount),pablo:sum(all.filter(r=>r.category==='Pablo'),r=>r.amount),materials:sum(all.filter(r=>r.category==='Materiales'),r=>r.amount)};
- $('stats').innerHTML=`<div class="stat dark"><div class="key">Costo total de la obra</div><div class="val">${fmt(amounts.total)}</div><div class="aux">Acumulado de todos los gastos registrados</div></div><div class="kpi-four"><div class="stat"><div class="key">Gastos del periodo</div><div class="val">${fmt(amounts.week)}</div><div class="aux">Recibo ${receiptNo()}</div></div><div class="stat"><div class="key">Materiales</div><div class="val">${fmt(amounts.materials)}</div><div class="aux">Acumulado</div></div><div class="stat"><div class="key">Pablo · mano de obra</div><div class="val">${fmt(amounts.pablo)}</div><div class="aux">Acumulado</div></div><div class="stat cost-m2"><div class="key">Costo por m²</div><div class="val">${num(db.settings.areaM2)>0?fmt(amounts.total/num(db.settings.areaM2)):'—'}</div><div class="aux">${num(db.settings.areaM2)>0?'Sobre '+num(db.settings.areaM2)+' m²':'Superficie sin configurar'}</div></div></div>`;
- const cats=getCategories().map((cat,i)=>({cat,amt:sum(all.filter(r=>r.category===cat),r=>r.amount),color:['#347e69','#d29d56','#729d8d','#7f847e','#a2b1a4','#acb899','#d6c2a5'][i%7]})).sort((a,b)=>b.amt-a.amt);const max=cats[0]?.amt||1;
- $('categoryBars').innerHTML=cats.filter(c=>c.amt).map(c=>`<div class="bar-label"><span>${safe(c.cat)}</span><strong>${fmt(c.amt)}</strong></div><div class="bar"><span style="width:${Math.max(1,c.amt/max*100)}%;background:${c.color}"></span></div>`).join('');
- $('importNote').textContent='Los adelantos no aumentan el costo de la obra. La copia histórica se recupera mediante Ajustes → Restaurar respaldo JSON.';
- $('weekRecent').innerHTML=w.length?w.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,7).map(expenseRow).join(''):'<div class="empty">No hay gastos registrados en esta semana.</div>';
- const out=categoriesForWeek(w);
- $('weekTotals').innerHTML=`${out.map(([cat,n])=>`<div class="summary-row"><span>${safe(cat)}</span><b>${fmt(n)}</b></div>`).join('')}<div class="summary-row total"><span>Total semanal</span><b>${fmt(amounts.week)}</b></div><div class="quick-actions"><button class="button light" onclick="goto('jornadas')">◷ Jornadas</button><button class="button" onclick="goto('recibo')">↗ Recibos</button></div>`;
- const d=receiptData(), settlement=settlementForWeek();
- $('cashBalances').innerHTML=`<div class="summary-row"><span>Ya pagado por Liliana</span><b>${fmt(d.direct)}</b></div>${d.pendingPablo?`<div class="summary-row"><span>Por transferir a Pablo (aparte)</span><b>${fmt(d.pendingPablo)}</b></div>`:''}<div class="summary-row"><span>Adelantado por Anahí</span><b>${fmt(d.anahi)}</b></div>${d.otherPending?`<div class="summary-row"><span>Francesco, dirección y herramientas · por liquidar</span><b>${fmt(d.otherPending)}</b></div>`:''}${d.delivered?`<div class="summary-row"><span>Adelantos y reembolsos recibidos</span><b>− ${fmt(d.delivered)}</b></div>`:''}${settlement.prior?`<div class="summary-row"><span>Saldo anterior</span><b>${fmt(settlement.prior)}</b></div>`:''}<div class="summary-row total"><span>${safe(labelBalance(settlement.balance))}</span><b>${fmt(Math.abs(settlement.balance))}</b></div>`;
-}
-function categoriesForWeek(items){return getCategories().map(cat=>[cat,sum(items.filter(r=>r.category===cat),r=>r.amount)]).filter(x=>x[1]);}
-function amountForWeek(n){const rows=recordsForWeek(n),exp=expenses(rows),flows=rows.filter(r=>r.type!=='gasto'&&r.payer==='Liliana'),w=getWeek(n);
- const anahi=sum(exp.filter(r=>payerName(r.payer)==='Anahí'&&r.status!=='pendiente'),r=>r.amount);
- const direct=sum(exp.filter(r=>r.payer==='Liliana'&&r.status!=='pendiente'),r=>r.amount);
- const pending=exp.filter(r=>r.status==='pendiente'&&r.payer==='Liliana');
- const pendingPablo=sum(exp.filter(r=>r.status==='pendiente'&&r.category==='Pablo'&&r.method==='Transferencia'&&r.payer==='Liliana'),r=>r.amount);
- const delivered=sum(flows,r=>r.amount);
- const adjustments=w.adjustments.map(a=>({...a,amount:round(a.amount),sign:Number(a.sign)===-1?-1:1}));
- const otherPending=sum(pending.filter(r=>['Francesco','Supervisión','Herramientas y madera'].includes(r.category)),r=>r.amount);const net=round(anahi+otherPending-delivered+sum(adjustments,a=>a.sign*a.amount));
- return {rows:exp.slice().sort((a,b)=>a.date.localeCompare(b.date)||a.category.localeCompare(b.category)).map(r=>({...r})),flows:flows.map(r=>({...r})),total:sum(exp,r=>r.amount),anahi,direct,pendingPablo,otherPending,delivered,adjustments,net,note:w.note||''};}
-function weekNet(n){return amountForWeek(n).net;}
-function computeBalances(untilWeek=selectedWeek){const first=Math.max(1,num(db.settings.openingWeek)||58);const earlier=Object.keys(db.receipts).map(Number).filter(n=>n<first&&n<=untilWeek&&(db.receipts[n]||[]).length).sort((a,b)=>b-a);const anchor=earlier[0];let saldo=anchor?num(db.receipts[anchor].at(-1).settlement.balance):num(db.settings.openingBalance);if(untilWeek<first&&!anchor)return {saldo:untilWeek===first-1?saldo:0,unreconciled:true};for(let i=anchor?anchor+1:first;i<=untilWeek;i++){const versions=db.receipts[i]||[];saldo=versions.length?num(versions[versions.length-1].settlement.balance):round((getWeek(i).priorOverride===null||getWeek(i).priorOverride===undefined?saldo:num(getWeek(i).priorOverride))+weekNet(i));}return {saldo:round(saldo),unreconciled:untilWeek<first};}
-function expenseRow(r){const tag=r.source==='PDF'?' · PDF':'';return `<div class="expense-row"><div><div class="d">${safe(r.description)}</div><div class="sub">${shortDate(r.date)} · ${safe(r.category)} · ${safe(payerName(r.payer))}${r.beneficiary?' · A: '+safe(r.beneficiary):''}${tag}</div></div><div class="right"><div class="amt">${fmt(r.amount)}</div><button onclick="editRecord('${r.id}')">Editar</button></div></div>`;}
-function kindChange(k){
- kind=k;document.querySelectorAll('[data-kind]').forEach(b=>b.classList.toggle('active',b.dataset.kind===k));
- $('field-category').classList.toggle('hide',k!=='gasto');$('field-zone').classList.toggle('hide',k!=='gasto');$('field-beneficiary').classList.toggle('hide',k!=='gasto');
- $('field-holder').style.display='none';
- $('r-payer').parentElement.classList.toggle('hide',k!=='gasto');
- $('r-payer-label').textContent='¿Quién pagó?';$('r-method-label').textContent='Forma de pago';
- $('recordSubmit').textContent=k==='gasto'?'Guardar gasto':k==='anticipo'?'Guardar adelanto':'Guardar reembolso';
- $('r-description').placeholder=k==='gasto'?'Ej. 4 bultos de cemento':k==='anticipo'?'Ej. Dinero entregado por Liliana a Anahí':'Ej. Reembolso de gastos de Anahí';$('kindExplanation').textContent=k==='gasto'?'Compra o trabajo de construcción.':k==='anticipo'?'Dinero que Liliana te entrega antes del cierre. No es gasto de obra.':'Dinero que Liliana te devuelve por gastos adelantados. No es gasto nuevo.';
- if(k==='anticipo'||k==='reintegro')$('r-payer').value='Liliana';
-}
-function saveRecord(e){
- e.preventDefault();const amount=round($('r-amount').value);if(amount<=0){toast('Escribe un importe mayor que cero.');return;}
- const data={id:'N'+Date.now().toString(36)+Math.random().toString(36).slice(2,7),date:$('r-date').value,amount,description:$('r-description').value.trim(),beneficiary:kind==='gasto'?$('r-beneficiary').value.trim():'',category:kind==='gasto'?$('r-category').value:'Otros',zone:kind==='gasto'?$('r-zone').value:'Sin asignar',payer:kind==='gasto'?$('r-payer').value:'Liliana',method:$('r-method').value,type:kind,source:'Nuevo',holder:kind==='gasto'?'':'Anahí',status:(kind==='gasto'&&$('r-payer').value==='Liliana'&&['Francesco','Supervisión','Herramientas y madera'].includes($('r-category').value))?'pendiente':'pagado'};
- if(!data.description){toast('Describe el concepto.');return;}if(kind==='gasto'&&!PAYERS.includes(data.payer)){toast('Selecciona Liliana o Anahí.');return;}
- db.records.push(data);store();$('r-description').value='';$('r-beneficiary').value='';$('r-amount').value='';if(kind==='gasto')applyExpenseDefaults();selectedWeek=weekForDate(data.date);toast('Movimiento guardado.');render();
-}
-function fastExpense(s,cat){goto('registrar');kindChange('gasto');$('r-description').value=s;$('r-category').value=cat;$('r-amount').focus();}
-function renderRegistrar(){let w=recordsForWeek(selectedWeek);$('registerSummary').innerHTML=`<div class="summary-row"><span>Gastos</span><strong>${fmt(sum(expenses(w),r=>r.amount))}</strong></div><div class="summary-row"><span>Adelantos</span><strong>${fmt(sum(w.filter(r=>r.type==='anticipo'),r=>r.amount))}</strong></div><div class="summary-row"><span>Reembolsos</span><strong>${fmt(sum(w.filter(r=>r.type==='reintegro'),r=>r.amount))}</strong></div>`;}
-function renderWork(){if($('workRateHint'))$('workRateHint').textContent='Día completo: '+fmt(db.settings.day)+'. Cada hora extra o faltante: '+fmt(db.settings.hour)+'. Los días sin trabajo pagan $0. Puedes ajustar estas tarifas en Ajustes.';let w=getWeek();$('w-supervise').checked=w.flags.supervise;$('w-tools').checked=w.flags.tools;
- const [monday]=datesForWeek(selectedWeek);let mon=unixDay(monday);
- $('workerRows').innerHTML=['Pablo','Francesco'].map(person=>`<div class="card" style="box-shadow:none;margin:0;padding:16px"><div class="worker-head"><strong>${person}</strong><span id="total-${person}">$0</span></div><div class="daily-head"><span>Día</span><span>Trabajó</span><span>Horas +/−</span></div>${DAYS.map((d,i)=>{let current=w.days[person][i]||{on:false,delta:0};return `<div class="day-row"><div class="dayname">${d}<small>${shortDate(isoUTC(mon+i*DAY))}</small></div><input type="checkbox" aria-label="${d}: trabajó ${person}" id="wd-${person}-${i}" ${current.on?'checked':''} onchange="setWork('${person}',${i},'on',this.checked)"><div class="stepper"><button type="button" aria-label="Quitar media hora el ${d} de ${person}" onclick="stepWork('${person}',${i},-0.5)" ${current.on?'':'disabled'}>−</button><input aria-label="${d}: horas extra o menos de ${person}" type="number" step="0.5" min="-10" max="24" id="wh-${person}-${i}" value="${current.delta||0}" ${current.on?'':'disabled'} onchange="setWork('${person}',${i},'delta',this.value)"><button type="button" aria-label="Añadir media hora el ${d} de ${person}" onclick="stepWork('${person}',${i},0.5)" ${current.on?'':'disabled'}>+</button></div></div>`;}).join('')}</div>`).join('');
- $('w-transfer-payer').value=w.payments.transferPayer;$('w-cash-payer').value=w.payments.cashPayer;$('w-transfer-status').value=w.payments.transferStatus;
- syncPabloAmounts();renderWorkCalc();$('payrollWarning').textContent=recordsForWeek(selectedWeek).some(r=>historical(r)&&['Pablo','Francesco','Supervisión','Herramientas y madera'].includes(r.category))?'Esta semana ya tiene nómina del registro original. Para no duplicarla, modifica esos movimientos desde Historial.':'Guardar actualiza esta semana sin duplicar gastos. Francesco, dirección y herramientas quedarán pendientes de pago.';
- const fixable=recordsForWeek(selectedWeek).some(r=>Number(r.autoWeek)===selectedWeek&&['Francesco','Supervisión','Herramientas y madera'].includes(r.category)&&(r.payer!=='Liliana'||r.status!=='pendiente'));
- let review=$('reviewPendingAuto');if(!review){review=document.createElement('button');review.id='reviewPendingAuto';review.type='button';review.className='button small outline';review.style.marginTop='8px';review.textContent='Corregir pagos pendientes de Liliana';review.onclick=fixPendingAutoPayments;$('payrollWarning').insertAdjacentElement('afterend',review);}review.style.display=fixable?'inline-flex':'none';}
-function stepWork(person,i,step){const el=$(`wh-${person}-${i}`);if(!el||el.disabled)return;const next=Math.max(-10,Math.min(24,Math.round((num(el.value)+step)*2)/2));el.value=next;setWork(person,i,'delta',next);}
-function setWork(person,i,key,value){let w=getWeek();let entry=w.days[person][i]||{on:false,delta:0};if(key==='on')entry.on=Boolean(value);else entry.delta=Math.max(-10,Math.min(24,Math.round(num(value)*2)/2));w.days[person][i]=entry;syncPabloAmounts();store();let input=$(`wh-${person}-${i}`);if(input)input.disabled=!entry.on;document.querySelectorAll(`#wd-${person}-${i} ~ .stepper button`).forEach(b=>b.disabled=!entry.on);renderWorkCalc();}
-function updateWeekFlag(){let w=getWeek();w.flags.supervise=$('w-supervise').checked;w.flags.tools=$('w-tools').checked;store();renderWorkCalc();}
-function weekChangePayment(){let w=getWeek();w.payments.transferPayer=$('w-transfer-payer').value;w.payments.cashPayer=$('w-cash-payer').value;store();renderWorkCalc();}
-function fixedDayCount(value,auto,base){return value===null||value===undefined?Math.max(0,Math.min(base,Math.round(auto))):Math.max(0,Math.min(base,Math.round(num(value))));}
-function calcPayroll(n=selectedWeek){let w=getWeek(n),s=db.settings,days=0,earn={Pablo:0,Francesco:0};for(let i=0;i<6;i++){let any=false;for(let person of ['Pablo','Francesco']){let d=w.days[person][i];if(d&&d.on){any=true;earn[person]+=Math.max(0,num(s.day)+num(s.hour)*num(d.delta));}}if(any)days++;}const pabloDays=Object.values(w.days.Pablo||{}).filter(d=>d&&d.on).length,base=Math.max(1,num(s.baseDays)||6),superDays=w.flags.supervise?fixedDayCount(w.fixedDays.supervision,pabloDays,base):0,toolsDays=w.flags.tools?fixedDayCount(w.fixedDays.tools,pabloDays,base):0;let result={days,superDays,toolsDays,pablo:round(earn.Pablo),fran:round(earn.Francesco),supervision:w.flags.supervise?Math.round(num(s.supervision)*superDays/base):0,tools:w.flags.tools?Math.round(num(s.tools)*toolsDays/base):0};result.total=round(result.pablo+result.fran+result.supervision+result.tools);return result;}
-function setFixedDays(which,value){if(!['supervision','tools'].includes(which))return;const n=Number(value),base=Math.max(1,num(db.settings.baseDays)||6);if(!Number.isFinite(n)){toast('Introduce un número válido de días.');return;}getWeek().fixedDays[which]=Math.max(0,Math.min(base,Math.round(n)));store();renderWorkCalc();}
-function stepFixedDays(which,delta){const r=calcPayroll(),w=getWeek(),base=Math.max(1,num(db.settings.baseDays)||6),current=which==='supervision'?r.superDays:r.toolsDays;setFixedDays(which,Math.max(0,Math.min(base,current+delta)));}
-function resetFixedDays(which){if(!['supervision','tools'].includes(which))return;getWeek().fixedDays[which]=null;store();renderWorkCalc();}
-function syncPabloAmounts(){const total=calcPayroll().pablo,p=getWeek().payments;if(p.splitTouched!==true){p.transfer=0;p.cash=total;}else if(p.lastEdited==='cash'){p.cash=Math.min(total,Math.max(0,num(p.cash)));p.transfer=round(total-p.cash);}else{p.transfer=Math.min(total,Math.max(0,num(p.transfer)));p.cash=round(total-p.transfer);}if($('w-pablo-transfer'))$('w-pablo-transfer').value=p.transfer;if($('w-pablo-cash'))$('w-pablo-cash').value=p.cash;}
-function changePabloSplit(which,value){const total=calcPayroll().pablo,p=getWeek().payments;const newValue=Math.min(total,Math.max(0,num(value)));p.splitTouched=true;p.lastEdited=which;p[which]=round(newValue);p[which==='cash'?'transfer':'cash']=round(total-newValue);$('w-pablo-'+(which==='cash'?'transfer':'cash')).value=p[which==='cash'?'transfer':'cash'];store();renderWorkCalc();}
-function renderWorkCalc(){let r=calcPayroll();$('total-Pablo').textContent=fmt(r.pablo);$('total-Francesco').textContent=fmt(r.fran);$('w-days').textContent=`${r.days} / 6`;$('w-supervisor').textContent=fmt(r.supervision);$('w-tools-value').textContent=fmt(r.tools);let w=getWeek(),p=w.payments;for(const [which,id,val] of [['supervision','w-super-days',r.superDays],['tools','w-tools-days',r.toolsDays]]){let el=$(id);el.value=val;el.max=Math.max(1,num(db.settings.baseDays)||6);el.disabled=!w.flags[which==='supervision'?'supervise':'tools'];$(id+'-caption').textContent=(w.fixedDays[which]===null||w.fixedDays[which]===undefined?'Según días de Pablo':'Ajustado manualmente')+' · '+val+' día(s)';}
- $('w-result').innerHTML=`<div class="summary-row"><span>Salario Pablo</span><b>${fmt(r.pablo)}</b></div><div class="summary-row"><span>Salario Francesco</span><b>${fmt(r.fran)}</b></div><div class="summary-row"><span>Dirección / supervisión</span><b>${fmt(r.supervision)}</b></div><div class="summary-row"><span>Herramientas / madera</span><b>${fmt(r.tools)}</b></div><div class="summary-row total"><span>Total a registrar</span><b>${fmt(r.total)}</b></div><div class="hint">Pablo: transferencia ${fmt(p.transfer)} (${safe(p.transferPayer)}) · efectivo ${fmt(p.cash)} (${safe(p.cashPayer)})${num(p.transfer)?' · '+(p.transferStatus==='pendiente'?'por realizar':'realizada'):''}</div>`;}
-function setTransferStatus(value){const status=value==='pagado'?'pagado':'pendiente';const w=getWeek();w.payments.transferStatus=status;for(const row of db.records){if(row.autoWeek===selectedWeek&&row.category==='Pablo'&&row.method==='Transferencia')row.status=status;}store();renderWorkCalc();toast(status==='pagado'?'Transferencia marcada como realizada.':'Transferencia pendiente de realizar.');}
-function postPayroll(){let r=calcPayroll(),w=getWeek();if(!r.days&&!r.superDays&&!r.toolsDays){toast('Indica al menos una jornada o un día de supervisión/herramientas.');return;}syncPabloAmounts();let p=w.payments;
- let historicalPayroll=recordsForWeek(selectedWeek).some(x=>historical(x)&&['Pablo','Francesco','Supervisión','Herramientas y madera'].includes(x.category));if(historicalPayroll){toast('Esta semana ya tiene nómina importada. Corrige esos importes en Historial para evitar duplicados.');return;}
- db.records=db.records.filter(x=>x.autoWeek!==selectedWeek);let date=datesForWeek(selectedWeek)[1];const add=(category,desc,amount,payer,method='Efectivo',status='pagado')=>{if(amount<=0)return;db.records.push({id:'A'+Date.now().toString(36)+Math.random().toString(36).slice(2,7),date,amount:round(amount),description:desc,beneficiary:category==='Pablo'?'Pablo':category==='Francesco'?'Francesco':'',category,payer,method,type:'gasto',source:'Jornadas',autoWeek:selectedWeek,status});};
- add('Pablo','Pablo · transferencia',num(p.transfer),p.transferPayer,'Transferencia',p.transferStatus);add('Pablo','Pablo · efectivo',num(p.cash),p.cashPayer,'Efectivo');add('Francesco','Mano de obra Francesco',r.fran,'Liliana','Efectivo','pendiente');add('Supervisión','Dirección y supervisión de trabajos',r.supervision,'Liliana','Efectivo','pendiente');add('Herramientas y madera','Herramientas y madera',r.tools,'Liliana','Efectivo','pendiente');
- store();toast('Jornadas guardadas y gastos actualizados.');goto('resumen');}
-function fixPendingAutoPayments(){
- const targets=recordsForWeek(selectedWeek).filter(r=>Number(r.autoWeek)===selectedWeek&&['Francesco','Supervisión','Herramientas y madera'].includes(r.category)&&(r.payer!=='Liliana'||r.status!=='pendiente'));
- if(!targets.length){toast('No hay pagos automáticos que corregir.');return;}
- if(!confirm('Marcar '+targets.length+' concepto(s) como pendientes de Liliana, sin alterar cantidades ni recibos cerrados. ¿Confirmas?'))return;
- for(const r of targets){r.payer='Liliana';r.status='pendiente';}
- store();render();toast('Pagos pendientes corregidos; importes conservados.');
-}
-function receiptData(n=selectedWeek){return amountForWeek(n);}
-function settlementForWeek(n=selectedWeek){const override=getWeek(n).priorOverride;const prior=(override===null||override===undefined)?computeBalances(n-1).saldo:num(override),d=receiptData(n);return {prior:round(prior),balance:round(prior+d.net)};}
-function receiptRevisions(week=selectedWeek){return db.receipts[week]||[];}
-function selectedReceipt(){const arr=receiptRevisions();return receiptMode==='saved'&&arr.length?arr[Math.max(0,Math.min(arr.length-1,receiptVersion??arr.length-1))]:null;}
-function receiptPayload(){const saved=selectedReceipt();return saved?{week:saved.week,receiptNumber:receiptNo(saved.week,saved),data:saved.data,settlement:saved.settlement,closedAt:saved.closedAt,version:saved.version}:{week:selectedWeek,receiptNumber:receiptNo(selectedWeek),data:receiptData(),settlement:settlementForWeek(),closedAt:null,version:null};}
-function labelBalance(value){return value>0?'QUEDAS EN DEUDA DE':value<0?'TIENES UN SALDO A FAVOR DE':'CUENTAS SALDADAS';}
-function receiptDisplayStatus(r){
- if(r.status==='pendiente')return r.category==='Pablo'&&r.method==='Transferencia'?'Transferencia pendiente':'Pendiente de pago';
- return r.payer==='Liliana'?'Pagado directamente por Liliana':'';
-}
-function receiptCalcLines(d,settle){
- const result=[{label:'Total de la semana',amount:round(d.total),kind:'base'}];
- if(num(d.direct))result.push({label:'Ya pagado por Liliana',amount:-round(d.direct)});
- if(num(d.pendingPablo))result.push({label:'Transferencia a Pablo (por realizar)',amount:-round(d.pendingPablo)});
- if(num(d.delivered))result.push({label:'Adelantos y reembolsos recibidos',amount:-round(d.delivered)});
- for(const adj of d.adjustments||[])result.push({label:adj.description,amount:round((Number(adj.sign)===-1?-1:1)*num(adj.amount))});
- result.push({label:num(settle.prior)<0?'Saldo de la semana anterior a tu favor':'Pendiente de la semana anterior',amount:round(settle.prior)});
- const diff=round(num(settle.balance)-sum(result,x=>x.amount));
- if(Math.abs(diff)>=0.005)result.splice(result.length-1,0,{label:'Diferencia por revisar en movimientos',amount:diff,kind:'reconcile'});
- return result;
-}
-function receiptSigned(value,isBase=false){return (isBase?'':value<0?'− ':'+ ')+fmtRec(Math.abs(value));}
-function receiptSortedRows(d){const order=['Pablo','Francesco','Supervisión','Herramientas y madera',...getCategories()];return (d.rows||[]).slice().sort((a,b)=>{const ai=order.indexOf(a.category),bi=order.indexOf(b.category);return ai-bi||a.date.localeCompare(b.date);});}
-function receiptContent(payload){
- const d=payload.data,settle=payload.settlement,n=payload.week,[start,end]=datesForWeek(n);
- const lines=receiptCalcLines(d,settle);
- const oneRow=r=>`<div class="receipt-simple-line"><div class="concept">${safe(r.description)}${receiptDisplayStatus(r)?`<small>${safe(receiptDisplayStatus(r))}</small>`:''}</div><span class="amount">${fmtRec(r.amount)}</span></div>`;
- return `<div class="receipt-head"><div><div class="mini-title">CASA LILIANA · CONTROL DE OBRA</div><h2>Resumen semanal</h2><div class="muted" style="font-size:11px">${localDate(start)} — ${localDate(end)}</div></div><div class="code">RECIBO<strong>${payload.receiptNumber}</strong></div></div>
- <div class="receipt-simple-heading">Detalle de gastos</div>
- ${d.rows.length?receiptSortedRows(d).map(oneRow).join(''):'<div class="empty">Sin gastos de obra en este periodo.</div>'}
- <div class="receipt-liquidation">${lines.map(x=>`<div class="receipt-calc-line ${x.kind||''}"><span>${safe(x.label)}</span><strong>${receiptSigned(x.amount,x.kind==='base')}</strong></div>`).join('')}</div>
- <div class="receipt-final-simple"><span>${safe(labelBalance(settle.balance))}</span><strong>${fmtRec(Math.abs(settle.balance))}</strong></div>
- ${num(d.pendingPablo)?'<p class="receipt-one-note">La transferencia a Pablo se realiza por separado; no está incluida en la cantidad anterior.</p>':''}
- ${payload.closedAt?`<div class="footerrec">Corte: ${localDate(payload.closedAt.slice(0,10))} · Versión ${payload.version}</div>`:'<div class="footerrec">Borrador · Sin cerrar</div>'}`;
-}
-function toggleReceiptList(force){
- receiptListOpen=typeof force==='boolean'?force:!receiptListOpen;
- const shell=$('receiptShell'),btn=$('receiptListToggle');
- shell.classList.toggle('archive-mode',receiptListOpen);
- btn.textContent=receiptListOpen?'← Volver al recibo':'☰ Ver todos los recibos';
- btn.setAttribute('aria-expanded',String(receiptListOpen));
- if(receiptListOpen)renderReceiptArchive();
- window.scrollTo({top:0,behavior:'instant'});
-}
-function openReceiptFromList(week){
- chooseReceiptWeek(week);
- toggleReceiptList(false);
-}
-function renderReceiptArchive(){
- const weeks=activeReceiptWeeks().slice().sort((a,b)=>b-a);
- const search=($('receiptArchiveSearch')?.value||'').trim().toLocaleLowerCase();
- const filtered=weeks.filter(n=>{
-  const no=receiptNo(n,(db.receipts[n]||[]).at(-1));
-  const [a,b]=datesForWeek(n);
-  return !search||[String(no),`recibo ${no}`,a,b,localDate(a),localDate(b),shortDate(a),shortDate(b)].join(' ').toLocaleLowerCase().includes(search);
- });
- const countSaved=weeks.filter(n=>receiptRevisions(n).length).length;
- if($('archiveCount'))$('archiveCount').textContent=`${weeks.length} recibo(s) para consultar`;
- $('receiptArchive').innerHTML=filtered.length?filtered.map(n=>{
-  const versions=receiptRevisions(n),last=versions.at(-1),saved=Boolean(last),no=receiptNo(n,last),selected=n===selectedWeek;
-  const total=saved?num(last.data?.total):sum(expenses(recordsForWeek(n)),r=>r.amount);
-  const [a,b]=datesForWeek(n);
-  return `<button type="button" class="archive-week ${selected?'active':''}" onclick="openReceiptFromList(${n})" aria-label="Abrir recibo ${no}${saved?' guardado':' borrador'}"><span><b>Recibo ${no}</b><br><span class="week-meta">${shortDate(a)} – ${shortDate(b)}</span></span><b class="archive-amount">${fmt(total)}</b></button>`;
- }).join(''):`<div class="archive-empty">${weeks.length?'No hay recibos que coincidan con tu búsqueda.':'Aún no hay periodos con gastos. Cuando registres uno, aparecerá aquí.'}</div>`;
- const active=weeks.slice();if(!active.includes(selectedWeek))active.push(selectedWeek);active.sort((a,b)=>b-a);
- $('receiptWeekSelect').innerHTML=active.map(n=>`<option value="${n}" ${n===selectedWeek?'selected':''}>Recibo ${receiptNo(n,(db.receipts[n]||[]).at(-1))}${receiptRevisions(n).length?' ✓':''} · ${shortDate(datesForWeek(n)[1])}</option>`).join('');
-}
-
-function renderReceipt(){const versions=receiptRevisions(),snap=selectedReceipt(),locked=Boolean(snap);renderReceiptArchive();const w=getWeek(),automaticPrior=computeBalances(selectedWeek-1).saldo; $('receiptSerial').value=receiptNo();const prior=(w.priorOverride===undefined||w.priorOverride===null)?automaticPrior:num(w.priorOverride);$('receiptPrior').value=round(prior);$('priorCaption').textContent=w.priorOverride===undefined||w.priorOverride===null?'Saldo calculado automáticamente. Puedes editarlo si necesitas corregirlo.':'Saldo corregido manualmente para esta semana. No cambia recibos cerrados.';
- $('receiptState').textContent=locked?'Cerrado · v'+snap.version:versions.length?'Preparando rectificación':'Borrador sin cerrar';$('receiptState').classList.toggle('draft',!locked);
- $('receiptEditor').style.display=locked?'none':'block';$('receiptLocked').style.display=locked?'block':'none';
- $('receiptLocked').innerHTML=locked?`<div class="status-label"><span class="status-dot"></span> Recibo cerrado el ${safe(new Date(snap.closedAt).toLocaleString('es-MX',{dateStyle:'medium',timeStyle:'short'}))}</div><p style="margin:9px 0">Esta versión está conservada tal como quedó al corte. Puedes recorrerla, descargarla y compartirla sin modificar sus importes.</p><button class="button outline small" onclick="prepareCorrection()">✎ Preparar una corrección</button>`:'';
- $('receiptVersions').innerHTML=versions.length?`<span class="small-note">Versiones guardadas:</span><select aria-label="Versión del recibo" onchange="showReceiptRevision(this.value)">${versions.map((v,i)=>`<option value="${i}" ${receiptMode==='saved'&&(receiptVersion===i)?'selected':''}>v${v.version} · ${safe(localDate(v.closedAt.slice(0,10)))}</option>`).join('')}</select>${receiptMode==='draft'?'<span class="archive-pill draft">Editando borrador</span>':''}`:'';
- const d=getWeek().adjustments;$('receiptAdjustments').innerHTML=d.length?d.map(a=>`<div class="expense-row"><div><div class="d">${safe(a.description)}</div><div class="sub">${a.sign<0?'Descontar':'Sumar'} · solo liquidación</div></div><div class="right"><div class="amt">${a.sign<0?'−':'+'} ${fmt(a.amount)}</div><button onclick="removeReceiptAdjustment('${safe(a.id)}')">Quitar</button></div></div>`).join(''):'<div class="small-note">Ninguna línea adicional todavía.</div>';
- const payload=receiptPayload();$('receiptPreview').innerHTML=receiptContent(payload);$('receiptSavedMeta').textContent=snap?`Corte guardado: ${new Date(snap.closedAt).toLocaleString('es-MX',{dateStyle:'full',timeStyle:'short'})} · Versión ${snap.version}.`:'Vista previa: los importes pueden cambiar hasta que cierres este recibo.';
- $('closeReceiptBtn').textContent=versions.length?'✓ Guardar versión corregida':'✓ Cerrar y guardar recibo';
-}
-function showReceiptRevision(index){const i=Number(index);if(!Number.isInteger(i)||i<0||i>=receiptRevisions().length)return;receiptMode='saved';receiptVersion=i;renderReceipt();}
-function prepareCorrection(){if(!receiptRevisions().length)return;receiptMode='draft';receiptVersion=null;renderReceipt();}
-function addReceiptAdjustment(){if(receiptMode==='saved'&&selectedReceipt()){toast('Para cambiar un recibo cerrado, prepara una corrección.');return;}const description=$('adjustDesc').value.trim(),amount=round(Number($('adjustAmount').value)),sign=Number($('adjustSign').value)===-1?-1:1;if(!description||!Number.isFinite(amount)||amount<=0){toast('Escribe un concepto y un importe válido.');return;}getWeek().adjustments.push({id:'L'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),description,amount,sign});store();$('adjustDesc').value='';$('adjustAmount').value='';renderReceipt();}
-function removeReceiptAdjustment(id){if(receiptMode==='saved'&&selectedReceipt())return;let w=getWeek();w.adjustments=w.adjustments.filter(a=>a.id!==id);store();renderReceipt();}
-function setPriorOverride(value){if(receiptMode==='saved'&&selectedReceipt())return;const n=Number(value);if(!Number.isFinite(n)){toast('Introduce un saldo válido.');return;}getWeek().priorOverride=round(n);store();renderReceipt();toast('Saldo anterior ajustado para esta semana.');}
-function resetPriorOverride(){if(receiptMode==='saved'&&selectedReceipt())return;delete getWeek().priorOverride;store();renderReceipt();toast('Saldo automático restaurado.');}
-function saveNote(note){getWeek().note=note;store();renderObraList();}
-function closeReceipt(){if(receiptMode==='saved'&&selectedReceipt()){toast('Este recibo ya está cerrado.');return;}const n=selectedWeek,prev=receiptRevisions(),data=receiptData(),settlement=settlementForWeek();if(!data.rows.length&&!data.adjustments.length&&!data.flows.length){toast('No hay movimientos que cerrar en esta semana.');return;}if(n>weekForDate(todayISO())&&!confirm('Vas a cerrar una semana futura. ¿Continuar?'))return;if(prev.length&&!confirm('Se guardará una NUEVA versión. El recibo anterior quedará intacto. ¿Confirmas?'))return;
- const later=Object.keys(db.receipts).some(k=>Number(k)>n&&(db.receipts[k]||[]).length);if(later&&!confirm('Hay recibos de semanas posteriores ya cerrados. Esos recibos mantendrán sus saldos originales. ¿Guardar esta corrección de todos modos?'))return;
- const snapshot={id:'R'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),week:n,receiptNumber:receiptNo(n),version:prev.length+1,closedAt:new Date().toISOString(),weekEnd:datesForWeek(n)[1],data:JSON.parse(JSON.stringify(data)),settlement:JSON.parse(JSON.stringify(settlement))};db.receipts[n]=[...prev,snapshot];if(!store()){db.receipts[n]=prev;return;}syncReceiptMode();renderReceipt();toast('Recibo cerrado y guardado en el archivo.');}
-function receiptLines(ctx,s,maxw,font){ctx.font=font;let words=String(s).split(/\s+/),lines=[],cur='';for(let word of words){let candidate=(cur?cur+' ':'')+word;if(ctx.measureText(candidate).width>maxw&&cur){lines.push(cur);cur=word;}else cur=candidate;}if(cur)lines.push(cur);return lines.length?lines:[''];}
-function canvasReceipt(payload=receiptPayload()){
- const d=payload.data,settle=payload.settlement,n=payload.week,[start,end]=datesForWeek(n),width=960,pad=65;
- const can=document.createElement('canvas');can.width=width;can.height=2300+d.rows.length*150+d.adjustments.length*85;
- const ctx=can.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,can.width,can.height);ctx.textBaseline='alphabetic';
- const ink='#153a31',green='#397c62',muted='#70857b',line='#dce6df';let y=69;
- function t(str,x,yy,size=23,weight=400,color=ink,align='left'){ctx.font=`${weight} ${size}px system-ui,sans-serif`;ctx.fillStyle=color;ctx.textAlign=align;ctx.fillText(String(str),x,yy);ctx.textAlign='left';}
- function sep(yy){ctx.strokeStyle=line;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(pad,yy);ctx.lineTo(width-pad,yy);ctx.stroke();}
- function txtlines(str,widthLimit=610,size=22,weight=500){return receiptLines(ctx,str,widthLimit,`${weight} ${size}px system-ui`);}
- t('CASA LILIANA · CONTROL DE OBRA',pad,y,21,800,green);y+=64;
- t('Resumen semanal',pad,y,43,800);t('RECIBO '+payload.receiptNumber,width-pad,y,22,800,ink,'right');y+=40;
- t(`${localDate(start)} — ${localDate(end)}`,pad,y,22,400,muted);y+=29;sep(y);y+=48;
- t('DETALLE DE GASTOS',pad,y,20,850,green);y+=31;
- if(!d.rows.length){t('Sin gastos de obra en este periodo',pad,y,22,400,muted);y+=48;}
- for(const r of receiptSortedRows(d)){
-   const lines=txtlines(r.description,640,23,550),status=receiptDisplayStatus(r);const ry=y;
-   for(let i=0;i<lines.length;i++)t(lines[i],pad,ry+i*28,23,550);
-   t(fmtRec(r.amount),width-pad,ry,23,750,ink,'right');
-   y+=Math.max(1,lines.length)*30;
-   if(status){t(status,pad,y,18,400,muted);y+=26;}
-   y+=15;sep(y);y+=27;
- }
- y+=19;
- for(const entry of receiptCalcLines(d,settle)){
-   if(entry.kind==='base'){sep(y-18);y+=34;}
-   const textLines=txtlines(entry.label,615,entry.kind==='base'?24:22,entry.kind==='base'?800:400);
-   const fontSize=entry.kind==='base'?24:22;
-   for(let i=0;i<textLines.length;i++)t(textLines[i],pad,y+i*29,fontSize,entry.kind==='base'?800:400);
-   t(receiptSigned(entry.amount,entry.kind==='base'),width-pad,y,entry.kind==='base'?28:23,entry.kind==='base'?800:700,ink,'right');
-   y+=Math.max(1,textLines.length)*29+17;
- }
- y+=19;ctx.fillStyle=ink;ctx.fillRect(pad,y,width-pad*2,92);
- t(labelBalance(settle.balance),pad+20,y+54,21,750,'#d6e8df');t(fmtRec(Math.abs(settle.balance)),width-pad-20,y+56,32,850,'#fff','right');y+=124;
- if(num(d.pendingPablo)){
-   const note='La transferencia a Pablo se realiza por separado; no está incluida en la cantidad anterior.';
-   for(const line of txtlines(note,width-pad*2,18,400)){t(line,pad,y,18,400,muted);y+=27;}
-   y+=11;
- }
- y+=14;sep(y);y+=31;
- if(payload.closedAt)t(`Corte: ${localDate(payload.closedAt.slice(0,10))} · Versión ${payload.version}`,pad,y,18,400,muted);
- else t('Borrador · Sin cerrar',pad,y,18,400,muted);
- return renderCropped(can,y+49);
-}
-function renderCropped(can,targetHeight){const copy=document.createElement('canvas');copy.width=can.width;copy.height=Math.max(620,Math.ceil(targetHeight));copy.getContext('2d').drawImage(can,0,0);return copy;}
-async function blobFromCanvas(){let c=canvasReceipt();return new Promise((resolve,reject)=>c.toBlob(b=>b?resolve(b):reject(new Error('PNG no disponible')),'image/png'));}
-function saveBlob(blob,name){let url=URL.createObjectURL(blob);let a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000);}
-async function downloadReceipt(){try{const p=receiptPayload();saveBlob(await blobFromCanvas(),`Liliana-recibo-${p.receiptNumber}${p.version?'-v'+p.version:'-borrador'}.png`);toast('Imagen del recibo preparada.');}catch(e){toast('No fue posible crear el PNG.');}}
-async function shareReceipt(){try{const p=receiptPayload();let blob=await blobFromCanvas(),file=new File([blob],`Liliana-recibo-${p.receiptNumber}${p.version?'-v'+p.version:'-borrador'}.png`,{type:'image/png'});if(navigator.canShare?.({files:[file]})){await navigator.share({title:'Recibo '+p.receiptNumber,files:[file]});}else{saveBlob(blob,file.name);toast('Imagen descargada. Puedes compartirla desde Archivos.');}}catch(e){if(e.name!=='AbortError')toast('No fue posible compartir; descarga el PNG.');}}
-
-function workAreaTotal(zone){return sum(expenses(db.records).filter(r=>(r.zone||'Sin asignar')===zone),r=>r.amount);}
-function areaCost(sumValue,area){return area>0?fmt(sumValue/area)+' /m²':'—';}
-function renderObraAnalysis(){
- const all=expenses(db.records),total=sum(all,r=>r.amount),area=num(db.settings.areaM2);
- const refTotal=num(db.settings.historicalReferenceTotal),refArea=num(db.settings.referenceAreaM2)||area,refNote=refTotal>0?('Referencia original de Riassunto: '+fmt(refTotal)+' ('+areaCost(refTotal,refArea)+'). Gasto detallado actual: '+fmt(total)+'. Diferencia pendiente de conciliar: '+fmt(Math.abs(refTotal-total))+'.'):'Importa el respaldo privado de historial para mostrar esta comparación.';
- $('obraMetric').innerHTML=`<div class="mini-metric"><div class="metric-label">Gasto total registrado · ${area} m² de referencia</div><strong>${areaCost(total,area)}</strong><div class="stage-sub">${fmt(total)} de costos de obra. No incluye adelantos, Airbnb ni reembolsos.</div><details class="admin-details" style="margin-top:9px"><summary>Comparar con la cifra de tu Google Sheet</summary><div class="stage-sub" style="margin-top:8px">${refNote}</div></details></div>`;
- const zoneArea={'Ampliación arriba':num(db.settings.upperAreaM2),'Reforma planta baja':num(db.settings.lowerAreaM2)};
- $('obraZones').innerHTML=ZONES.map(z=>{const count=all.filter(r=>(r.zone||'Sin asignar')===z).length,cost=workAreaTotal(z);return `<div class="zone-row"><span><b>${safe(z)}</b><div class="stage-sub">${count} gastos${zoneArea[z]>0?' · '+areaCost(cost,zoneArea[z]):''}</div></span><b>${fmt(cost)}</b></div>`;}).join('')+'<div class="stage-sub">Los totales de las cuatro zonas suman exactamente el costo de la obra. Clasificar un gasto no modifica su precio ni los recibos.</div>';
- const stages=db.milestones.slice().sort((a,b)=>Number(a.week)-Number(b.week));let priorEnd=0;
- $('obraMilestones').innerHTML=stages.length?stages.map(s=>{const wk=Number(s.week);const within=all.filter(r=>{let rw=r.weekLegacy?Number(r.weekLegacy):dateWeek(r);return rw<=wk&&rw>priorEnd});const increment=sum(within,r=>r.amount);const cumulative=sum(all.filter(r=>(r.weekLegacy?Number(r.weekLegacy):dateWeek(r))<=wk),r=>r.amount);const start=priorEnd+1;priorEnd=wk;
- const losaRef=num(db.settings.losaReference);const historic=s.id==='m-losa'&&wk===11&&losaRef>0?`<div class="stage-sub">Referencia de «Riassunto»: ${fmt(losaRef)} hasta la losa; detalle actual: ${fmt(cumulative)}. Diferencia: ${fmt(Math.abs(losaRef-cumulative))}, pendiente de conciliar.</div>`:'';
- return `<div class="stage-row"><div class="stage-head"><b>${safe(s.name)}</b><span><button class="button light small" onclick="removeMilestone('${safe(s.id)}')" aria-label="Eliminar corte">Quitar</button></span></div><div class="stage-sub">Semanas ${start}–${wk} · gasto de esta etapa: <b>${fmt(increment)}</b> (${areaCost(increment,area)})</div><div class="stage-sub">Acumulado hasta este corte: <b>${fmt(cumulative)}</b> · <b>${areaCost(cumulative,area)}</b></div>${historic}</div>`;}).join(''):'<div class="empty">Aún no hay cortes. Agrégalos según avance la construcción.</div>';
-}
-function addMilestone(){const name=$('milestoneName').value.trim(),wk=Number($('milestoneWeek').value);if(name.length<2||name.length>65||!Number.isSafeInteger(wk)||wk<1||wk>3000){toast('Escribe nombre y semana válidos.');return;}if(db.milestones.some(x=>Number(x.week)===wk)){toast('Ya existe un corte en esta semana. Edita o quita el anterior.');return;}db.milestones.push({id:'m'+Date.now().toString(36),name,week:wk});store();$('milestoneName').value='';$('milestoneWeek').value='';renderObraAnalysis();toast('Corte añadido sin duplicar gastos.');}
-function removeMilestone(id){let item=db.milestones.find(x=>x.id===id);if(!item||!confirm('¿Quitar el corte «'+item.name+'»? Los gastos no se eliminan.'))return;db.milestones=db.milestones.filter(x=>x.id!==id);store();renderObraAnalysis();}
-function saveAreas(){const a=Number($('s-area').value),u=Number($('s-upper-area').value),l=Number($('s-lower-area').value);if(!Number.isFinite(a)||a<=0||!Number.isFinite(u)||u<0||!Number.isFinite(l)||l<0){toast('Revisa los metros cuadrados.');return;}Object.assign(db.settings,{areaM2:round(a),upperAreaM2:round(u),lowerAreaM2:round(l)});store();render();toast('Superficies guardadas.');}
-function resetMovementPage(){historyPage=0;renderHistory();}
-
-function renderObra(){const [start,end]=datesForWeek(selectedWeek);$('obraWeekTag').textContent='Recibo '+receiptNo();$('obraEditTitle').textContent=`Periodo ${shortDate(start)}–${shortDate(end)} · Recibo ${receiptNo()}`;$('obraNote').value=getWeek().note||'';$('obraWeekTotal').textContent=fmt(sum(expenses(recordsForWeek(selectedWeek)),r=>r.amount));renderObraList();renderObraAnalysis();const all=expenses(db.records),laborCategories=['Pablo','Francesco','Supervisión','Mano de obra'];
- const laborTotal=sum(all.filter(r=>laborCategories.includes(r.category)),r=>r.amount);
- const groups=getCategories().map(c=>({name:c,total:sum(all.filter(r=>r.category===c),r=>r.amount)})).filter(c=>c.total>0);
- const laborDetail=groups.filter(c=>laborCategories.includes(c.name)).sort((a,b)=>b.total-a.total);
- const independent=groups.filter(c=>!laborCategories.includes(c.name)).sort((a,b)=>b.total-a.total);
- $('obraCategories').innerHTML=(laborTotal?`<details class="admin-details" style="margin:5px 0 10px"><summary><span style="display:inline-flex;justify-content:space-between;width:calc(100% - 18px)"><strong>Mano de obra · total</strong><b>${fmt(laborTotal)}</b></span></summary><div style="padding:6px 9px 2px"><div class="small-note">Desglose incluido en el total; no se vuelve a sumar.</div>${laborDetail.map(c=>`<div class="category-row"><span>${safe(c.name)}</span><b>${fmt(c.total)}</b></div>`).join('')}</div></details>`:'')+independent.map(c=>`<div class="category-row"><span>${safe(c.name)}</span><b>${fmt(c.total)}</b></div>`).join('')||'<div class="empty">Sin gastos registrados</div>';
-}
-
-function renderObraList(){
- const target=$('obraList');if(!target)return;
- const q=($('obraSearch')?.value||'').toLocaleLowerCase();
- const known=new Set(activeReceiptWeeks());
- for(const [k,w] of Object.entries(db.weeks)){if((w.note||'').trim())known.add(Number(k));}
- const weeks=[...known].filter(n=>Number.isInteger(n)&&n>=1).sort((a,b)=>b-a).filter(n=>{
-  const [from,to]=datesForWeek(n),note=db.weeks[n]?.note||'';
-  return !q||['recibo '+receiptNo(n),'periodo '+n,String(n),from,to,note].join(' ').toLocaleLowerCase().includes(q);
- }).map(n=>{
-  const w=db.weeks[n]||{},total=sum(expenses(recordsForWeek(n)),r=>r.amount),[from,to]=datesForWeek(n);
-  const hasCost=total>0||receiptRevisions(n).length;
-  return `<button class="work-week ${n===selectedWeek?'active':''}" onclick="goObraWeek(${n})"><span><b>${hasCost?'Recibo '+receiptNo(n):'Avance de obra'}</b> <span class="muted-mini">${shortDate(from)}–${shortDate(to)}</span><span class="work-desc">${safe(w.note||'Sin avance anotado')}</span>${!hasCost?'<span class="muted-mini">Nota histórica; sin gastos detallados</span>':''}</span><span class="work-price">${hasCost?fmt(total):'—'}</span></button>`;
- });
- target.innerHTML=weeks.length?(q||obraExpanded?weeks:weeks.slice(0,10)).join('')+'<div class="btns" style="margin-top:11px">'+(!q&&weeks.length>10?'<button class="button light small wide" onclick="obraExpanded=!obraExpanded;renderObraList()">'+(obraExpanded?'Mostrar solo los últimos 10':'Ver los '+weeks.length+' periodos con actividad')+'</button>':'')+'</div>':'<div class="empty">No hay periodos con actividad registrados.</div>';
-}
-
-function goObraWeek(n){selectedWeek=n;syncReceiptMode();render();$('obraNote').focus();}
-function setHistType(t){histType=t;historyPage=0;document.querySelectorAll('[data-filter]').forEach(b=>b.classList.toggle('active',b.dataset.filter===t));renderHistory();}
-function historyRows(){
- const rows=db.records.slice();
- for(const [week,w] of Object.entries(db.weeks)){
-  if(!Number.isSafeInteger(Number(week))||Number(week)<1)continue;
-  for(let i=0;i<(w.adjustments||[]).length;i++){
-   const a=w.adjustments[i];
-   rows.push({id:'adjust-'+week+'-'+i,date:datesForWeek(Number(week))[1],weekLegacy:Number(week),type:'ajuste',amount:round(a.amount),sign:Number(a.sign)===-1?-1:1,description:a.description,category:'Otros ajustes',payer:'—',method:'Recibo',zone:'Sin asignar',source:'Recibo',adjustment:true});
-  }
- }
- return rows;
-}
-function openAdjustment(week){chooseReceiptWeek(week);goto('recibo');}
-function renderHistory(){
- const query=($('search').value||'').toLocaleLowerCase().trim(),cat=$('histCat').value,week=$('histWeek').value,zone=$('histZone').value,payer=$('histPayer').value,from=$('histFrom').value,to=$('histTo').value;
- let rs=historyRows().filter(r=>(histType==='all'||r.type===histType)&&(cat==='all'||r.category===cat)&&(week==='all'||(r.weekLegacy?Number(r.weekLegacy):dateWeek(r))===selectedWeek)&&(zone==='all'||(r.zone||'Sin asignar')===zone)&&(payer==='all'||payerName(r.payer)===payer)&&(!from||r.date>=from)&&(!to||r.date<=to)&&(!query||[r.description,r.category,r.payer,r.beneficiary,r.amount,r.date,String(r.weekLegacy||dateWeek(r)),String(receiptNo(r.weekLegacy?Number(r.weekLegacy):dateWeek(r))),r.zone].join(' ').toLocaleLowerCase().includes(query)));
- rs.sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id));
- $('rowCount').textContent=rs.length+' registros';
- const spent=sum(rs.filter(r=>r.type==='gasto'),r=>r.amount),received=sum(rs.filter(r=>r.type==='anticipo'),r=>r.amount),reimbursed=sum(rs.filter(r=>r.type==='reintegro'),r=>r.amount),adjNet=sum(rs.filter(r=>r.type==='ajuste'),r=>r.sign*r.amount);
- $('historyTotals').innerHTML=`<div><span>Gastos de obra</span><b>${fmt(spent)}</b></div><div><span>Adelantos recibidos</span><b>${fmt(received)}</b></div><div><span>Reembolsos recibidos</span><b>${fmt(reimbursed)}</b></div><div><span>Ajustes de recibos · neto</span><b>${adjNet<0?'− ':adjNet>0?'+ ':''}${fmt(Math.abs(adjNet))}</b></div>`;
- const size=(historyPage+1)*40;
- $('historyList').innerHTML=rs.length?rs.slice(0,size).map(r=>`<div class="expense-row"><div><div class="d">${safe(r.description)}</div><div class="sub">${localDate(r.date)} · Recibo ${receiptNo(r.weekLegacy?Number(r.weekLegacy):dateWeek(r))} · ${safe(typeName(r.type))} · ${safe(r.category)}<br>${safe(payerName(r.payer))} · ${safe(r.method)}${r.beneficiary?' · A: '+safe(r.beneficiary):''}${r.type==='gasto'?' · '+safe(r.zone||'Sin asignar'):''}${r.status==='pendiente'?' · Pendiente':''} ${r.source==='PDF'?'· Original PDF':''}</div></div><div class="right"><div class="amt">${r.adjustment?(r.sign<0?'− ':'+ '):''}${fmt(r.amount)}</div>${r.adjustment?`<button onclick="openAdjustment(${r.weekLegacy})">Ver recibo</button>`:`<button onclick="editRecord('${r.id}')">Editar</button>`}</div></div>`).join(''):'<div class="empty">Sin movimientos con estos filtros.</div>';
- $('pagingControls').classList.toggle('hide',rs.length<=40);$('pagingControls').children[0].disabled=historyPage===0;$('pagingControls').children[1].disabled=rs.length<=size;
-}
-
-function editRecord(id){
- const r=db.records.find(x=>x.id===id);if(!r)return;editingId=id;
- $('e-date').value=r.date;$('e-amount').value=r.amount;$('e-desc').value=r.description;
- $('e-beneficiary').value=r.beneficiary||'';$('e-cat').value=r.category;$('e-zone').value=ZONES.includes(r.zone)?r.zone:'Sin asignar';
- $('e-payer').innerHTML=opt(PAYERS);
- if(!PAYERS.includes(payerName(r.payer))){const el=document.createElement('option');el.value=r.payer;el.textContent='Antiguo: '+payerName(r.payer)+' (revisar)';$('e-payer').append(el);}
- $('e-payer').value=PAYERS.includes(payerName(r.payer))?payerName(r.payer):r.payer;
- $('e-method').value=r.method;$('e-type').value=r.type;$('e-holder').value='Anahí';$('editModal').classList.add('show');
-}
-function closeEdit(){editingId=null;$('editModal').classList.remove('show');}
-function saveEdit(e){
- e.preventDefault();const r=db.records.find(x=>x.id===editingId);if(!r)return;
- const amount=round($('e-amount').value);if(amount<=0){toast('El importe debe ser mayor que cero.');return;}
- const payer=$('e-type').value==='gasto'?$('e-payer').value:'Liliana';const oldDate=r.date;
- Object.assign(r,{date:$('e-date').value,amount,description:$('e-desc').value.trim(),beneficiary:$('e-beneficiary').value.trim(),category:$('e-cat').value,zone:$('e-type').value==='gasto'?$('e-zone').value:'Sin asignar',payer,method:$('e-method').value,type:$('e-type').value,holder:'Anahí'});
- if(r.weekLegacy&&r.date!==oldDate)delete r.weekLegacy;if(r.source==='PDF')r.source='PDF corregido';store();closeEdit();toast('Movimiento actualizado.');render();
-}
-function deleteEdit(){let r=db.records.find(x=>x.id===editingId);if(!r||!confirm(`¿Eliminar definitivamente “${r.description}” por ${fmt(r.amount)}?`))return;db.records=db.records.filter(x=>x.id!==editingId);store();closeEdit();render();toast('Movimiento eliminado.');}
-function renderSettings(){const s=db.settings;$('s-day').value=s.day;$('s-hour').value=s.hour;$('s-super').value=s.supervision;$('s-tools').value=s.tools;$('s-base').value=s.baseDays;$('s-balance').value=num(s.openingBalance);$('s-start-week').value=num(s.openingWeek)||58;$('s-area').value=num(s.areaM2)||64;$('s-upper-area').value=num(s.upperAreaM2);$('s-lower-area').value=num(s.lowerAreaM2);}
-function saveSettings(){let s={day:num($('s-day').value),hour:num($('s-hour').value),supervision:num($('s-super').value),tools:num($('s-tools').value),baseDays:num($('s-base').value)};if(Object.values(s).some(v=>v<0)||s.baseDays<1||s.baseDays>7){toast('Revisa los valores de las tarifas.');return;}db.settings={...db.settings,...s};store();toast('Tarifas guardadas.');}
-function saveOpening(){const balance=Number($('s-balance').value),start=Number($('s-start-week').value);if(!Number.isFinite(balance)||!Number.isInteger(start)||start<1){toast('Revisa el saldo y la semana inicial.');return;}db.settings.openingBalance=round(balance);db.settings.openingWeek=start;store();render();toast('Saldo anterior guardado.');}
-function exportBackup(){let blob=new Blob([JSON.stringify({...db,exportedAt:new Date().toISOString()},null,2)],{type:'application/json'});saveBlob(blob,`Liliana-respaldo-${todayISO()}.json`);toast('Respaldo JSON preparado.');}
-function csvCell(v){return '"'+String(v??'').replaceAll('"','""')+'"';}
-function exportCsv(){const head=['Fecha','Semana','Tipo','Descripción','Proveedor','Categoría','Zona de obra','Importe MXN','Quién pagó','Medio de pago','Origen'];let lines=[head.map(csvCell).join(';')];for(let r of historyRows()){let data=[r.date,r.weekLegacy?Number(r.weekLegacy):dateWeek(r),r.type==='ajuste'?'Ajuste de recibo':typeName(r.type),r.description,r.beneficiary||'',r.category,r.zone||'Sin asignar',String(round(r.amount*(r.adjustment?r.sign:1))).replace('.',','),payerName(r.payer),r.method,r.source];lines.push(data.map(csvCell).join(';'));}saveBlob(new Blob(['\ufeff'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'}),`Liliana-gastos-${todayISO()}.csv`);toast('Archivo Excel/CSV preparado.');}
-async function importBackup(e){let f=e.target.files?.[0];if(!f)return;try{let obj=JSON.parse(await f.text());if(!obj||!Array.isArray(obj.records)||typeof obj.weeks!=='object')throw new Error('formato');if(!confirm(`Restaurar ${obj.records.length} movimientos. ¿Sustituir todos los actuales?`))return;db={version:4,records:obj.records,weeks:obj.weeks||{},receipts:obj.receipts||{},categories:Array.isArray(obj.categories)?obj.categories:BASE_CATEGORIES.slice(),milestones:Array.isArray(obj.milestones)?obj.milestones:[],migrations:obj.migrations||{},settings:{...DEFAULT_SETTINGS,...obj.settings}};if(!store())throw new Error('save failed');selectedWeek=weekForDate(todayISO());syncReceiptMode();db.settings.expenseDefaults={...DEFAULT_EXPENSE_PREFS,...(db.settings.expenseDefaults||{})};refreshCategories(db.settings.expenseDefaults.category);refreshZones();refreshExpensePreferences();applyExpenseDefaults();goto('resumen');toast('Respaldo restaurado.');}catch(err){toast('Archivo inválido. Usa un respaldo generado por la app.');}finally{e.target.value='';}}
-init();
-</script>
-<script>
-let pendingInstallEvent=null;
-window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();pendingInstallEvent=event;const button=document.getElementById('installPwaButton');if(button)button.style.display='inline-flex';});
-async function installCasaLiliana(){if(!pendingInstallEvent)return;const event=pendingInstallEvent;pendingInstallEvent=null;const button=document.getElementById('installPwaButton');if(button)button.style.display='none';await event.prompt();}
-window.addEventListener('appinstalled',()=>{pendingInstallEvent=null;});
-if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1')){window.addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(err=>console.warn('Modo sin conexión no disponible:',err));});}
-</script>
-</body></html>
+  <dialog id="dialog" aria-label="Formulario">
+    <div id="dialogContent"></div>
+  </dialog>
+  <input id="backupImport" type="file" accept=".json,application/json" hidden />
+  <script src="app.js" defer></script>
+</body>
+</html>
